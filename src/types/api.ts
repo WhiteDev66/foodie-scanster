@@ -12,6 +12,8 @@ export interface Product {
   nutriments?: {
     [key: string]: number;
   };
+  status?: number;
+  status_verbose?: string;
 }
 
 export interface SearchResponse {
@@ -19,4 +21,13 @@ export interface SearchResponse {
   page: number;
   page_size: number;
   products: Product[];
+  skip?: number;
+  status?: number;
+  status_verbose?: string;
+}
+
+export interface ApiError {
+  status: number;
+  status_verbose: string;
+  error: string;
 }
