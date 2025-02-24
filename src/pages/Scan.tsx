@@ -1,9 +1,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BrowserMultiFormatReader, Result } from "@zxing/library";
+import { BrowserMultiFormatReader, Result, BarcodeFormat } from "@zxing/library";
 import { Camera, XCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { checkProductExists } from "../services/api";
 
 const Scan = () => {
   const navigate = useNavigate();
@@ -14,7 +15,11 @@ const Scan = () => {
   const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
   useEffect(() => {
-    codeReaderRef.current = new BrowserMultiFormatReader();
+    // Configuration initiale du lecteur de code-barres
+    const codeReader = new BrowserMultiFormatReader();
+    codeReader.setHints(new Map([[BarcodeFormat.EAN_13, {}]]));
+    codeReaderRef.current = codeReader;
+
     return () => {
       if (codeReaderRef.current) {
         codeReaderRef.current.reset();
@@ -35,20 +40,36 @@ const Scan = () => {
         throw new Error("Aucune caméra détectée");
       }
 
-      const selectedDeviceId = videoInputDevices[0].deviceId;
+      // Utilise la caméra arrière sur mobile si disponible
+      const selectedDevice = videoInputDevices.find(device => 
+        device.label.toLowerCase().includes('back') || 
+        device.label.toLowerCase().includes('arrière')
+      ) || videoInputDevices[0];
       
       await codeReaderRef.current.decodeFromVideoDevice(
-        selectedDeviceId,
+        selectedDevice.deviceId,
         videoRef.current,
-        (result: Result | null, error?: Error) => {
+        async (result: Result | null, err?: Error) => {
           if (result) {
-            codeReaderRef.current?.reset();
-            setIsScanning(false);
-            navigate(`/product/${result.getText()}`);
+            const barcode = result.getText();
+            console.log("Code-barres détecté:", barcode);
+            
+            // Vérifie si le produit existe dans la base de données
+            const exists = await checkProductExists(barcode);
+            if (exists) {
+              codeReaderRef.current?.reset();
+              setIsScanning(false);
+              navigate(`/product/${barcode}`);
+            } else {
+              toast({
+                title: "Produit non trouvé",
+                description: "Ce produit n'existe pas dans la base de données.",
+                variant: "destructive",
+              });
+            }
           }
-          if (error && !(error instanceof TypeError)) {
-            // TypeError est lancé quand le scan est arrêté normalement
-            console.error("Erreur de scan:", error);
+          if (err && !(err instanceof TypeError)) {
+            console.error("Erreur de scan:", err);
           }
         }
       );

@@ -5,22 +5,35 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { searchProducts } from "../services/api";
 import { Product } from "../types/api";
+import { useToast } from "@/components/ui/use-toast";
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const { toast } = useToast();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["search", debouncedQuery],
     queryFn: () => searchProducts(debouncedQuery),
     enabled: debouncedQuery.length > 0,
+    retry: false,
+    onError: (err) => {
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Impossible de charger les résultats. Veuillez réessayer.",
+      });
+    }
   });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    setTimeout(() => {
-      setDebouncedQuery(e.target.value);
+    const value = e.target.value;
+    setQuery(value);
+    // Debounce search
+    const timeoutId = setTimeout(() => {
+      setDebouncedQuery(value);
     }, 500);
+    return () => clearTimeout(timeoutId);
   };
 
   return (
@@ -41,6 +54,12 @@ const Search = () => {
           {isLoading && (
             <div className="text-center py-8">
               <div className="animate-pulse">Chargement...</div>
+            </div>
+          )}
+
+          {error && (
+            <div className="text-center text-red-600">
+              Une erreur est survenue lors de la recherche.
             </div>
           )}
 
