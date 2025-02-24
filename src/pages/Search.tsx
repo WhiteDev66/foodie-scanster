@@ -17,19 +17,20 @@ const Search = () => {
     queryFn: () => searchProducts(debouncedQuery),
     enabled: debouncedQuery.length > 0,
     retry: false,
-    onError: (err) => {
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de charger les résultats. Veuillez réessayer.",
-      });
+    meta: {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: "Erreur",
+          description: "Impossible de charger les résultats. Veuillez réessayer.",
+        });
+      }
     }
   });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    // Debounce search
     const timeoutId = setTimeout(() => {
       setDebouncedQuery(value);
     }, 500);

@@ -1,7 +1,6 @@
-
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BrowserMultiFormatReader, Result, BarcodeFormat } from "@zxing/library";
+import { BrowserMultiFormatReader, Result } from "@zxing/library";
 import { Camera, XCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { checkProductExists } from "../services/api";
@@ -17,7 +16,6 @@ const Scan = () => {
   useEffect(() => {
     // Configuration initiale du lecteur de code-barres
     const codeReader = new BrowserMultiFormatReader();
-    codeReader.setHints(new Map([[BarcodeFormat.EAN_13, {}]]));
     codeReaderRef.current = codeReader;
 
     return () => {
