@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrowserMultiFormatReader, Result } from "@zxing/library";
@@ -18,6 +19,16 @@ const Scan = () => {
     const codeReader = new BrowserMultiFormatReader();
     codeReaderRef.current = codeReader;
 
+    // Vérification des permissions de la caméra
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(() => {
+        console.log("Camera permission granted");
+      })
+      .catch((err) => {
+        console.error("Camera permission error:", err);
+        setError("Veuillez autoriser l'accès à la caméra dans les paramètres de votre navigateur");
+      });
+
     return () => {
       if (codeReaderRef.current) {
         codeReaderRef.current.reset();
@@ -27,12 +38,17 @@ const Scan = () => {
 
   const startScanning = async () => {
     try {
+      console.log("Starting scan...");
       setError(null);
       setIsScanning(true);
 
-      if (!codeReaderRef.current || !videoRef.current) return;
+      if (!codeReaderRef.current || !videoRef.current) {
+        console.error("Scanner or video ref not initialized");
+        return;
+      }
 
       const videoInputDevices = await codeReaderRef.current.listVideoInputDevices();
+      console.log("Available cameras:", videoInputDevices);
       
       if (videoInputDevices.length === 0) {
         throw new Error("Aucune caméra détectée");
@@ -43,6 +59,8 @@ const Scan = () => {
         device.label.toLowerCase().includes('back') || 
         device.label.toLowerCase().includes('arrière')
       ) || videoInputDevices[0];
+      
+      console.log("Selected camera:", selectedDevice);
       
       await codeReaderRef.current.decodeFromVideoDevice(
         selectedDevice.deviceId,
@@ -72,6 +90,7 @@ const Scan = () => {
         }
       );
     } catch (err) {
+      console.error("Scanning error:", err);
       setIsScanning(false);
       setError(err instanceof Error ? err.message : "Une erreur est survenue");
       toast({
