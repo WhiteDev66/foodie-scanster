@@ -23,12 +23,23 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
   }
   
   try {
+    // Utilisation des paramètres de recherche plus précis
     const response = await fetch(
-      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments`
+      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&tagtype_0=brands&tag_contains_0=contains&tag_0=${encodeURIComponent(query)}`
     );
     console.log("API Response status:", response.status);
     const data = await handleResponse(response);
     console.log("API Response data:", data);
+    
+    // Filtrer les résultats pour ne garder que ceux qui correspondent exactement au nom de marque
+    if (data.products) {
+      data.products = data.products.filter(product => {
+        const productName = product.product_name?.toLowerCase() || "";
+        const searchTerm = query.toLowerCase();
+        return productName.includes(searchTerm);
+      });
+      data.count = data.products.length;
+    }
     
     if (!data.products) {
       console.error("Invalid API response format:", data);
