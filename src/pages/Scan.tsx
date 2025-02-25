@@ -1,7 +1,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BrowserMultiFormatReader, Result } from "@zxing/library";
+import { BrowserMultiFormatReader } from "@zxing/library";
 import { Camera, XCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { checkProductExists } from "../services/api";
@@ -20,7 +20,7 @@ const Scan = () => {
     codeReaderRef.current = codeReader;
 
     // Vérification des permissions de la caméra
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
       .then(() => {
         console.log("Camera permission granted");
       })
@@ -54,33 +54,42 @@ const Scan = () => {
         throw new Error("Aucune caméra détectée");
       }
 
-      // Utilise la caméra arrière sur mobile si disponible
-      const selectedDevice = videoInputDevices.find(device => 
+      // Utilise la caméra arrière sur mobile en priorité
+      const preferredCamera = videoInputDevices.find(device => 
         device.label.toLowerCase().includes('back') || 
-        device.label.toLowerCase().includes('arrière')
+        device.label.toLowerCase().includes('arrière') ||
+        device.label.toLowerCase().includes('environment')
       ) || videoInputDevices[0];
-      
-      console.log("Selected camera:", selectedDevice);
-      
+
+      console.log("Selected camera:", preferredCamera);
+
       await codeReaderRef.current.decodeFromVideoDevice(
-        selectedDevice.deviceId,
+        preferredCamera.deviceId,
         videoRef.current,
-        async (result: Result | null, err?: Error) => {
+        async (result, err) => {
           if (result) {
             const barcode = result.getText();
             console.log("Code-barres détecté:", barcode);
             
-            // Vérifie si le produit existe dans la base de données
-            const exists = await checkProductExists(barcode);
-            if (exists) {
-              codeReaderRef.current?.reset();
-              setIsScanning(false);
-              navigate(`/product/${barcode}`);
-            } else {
+            try {
+              const exists = await checkProductExists(barcode);
+              if (exists) {
+                codeReaderRef.current?.reset();
+                setIsScanning(false);
+                navigate(`/product/${barcode}`);
+              } else {
+                toast({
+                  title: "Produit non trouvé",
+                  description: "Ce produit n'existe pas dans la base de données.",
+                  variant: "destructive",
+                });
+              }
+            } catch (error) {
+              console.error("Erreur lors de la vérification du produit:", error);
               toast({
-                title: "Produit non trouvé",
-                description: "Ce produit n'existe pas dans la base de données.",
                 variant: "destructive",
+                title: "Erreur",
+                description: "Impossible de vérifier le produit. Veuillez réessayer.",
               });
             }
           }
