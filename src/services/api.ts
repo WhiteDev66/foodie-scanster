@@ -1,4 +1,3 @@
-
 import { Product, SearchResponse } from "../types/api";
 
 const API_URL = "https://world.openfoodfacts.org/api/v2";
@@ -24,7 +23,7 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
   
   try {
     const response = await fetch(
-      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments`
+      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=fr&fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments`
     );
     console.log("API Response status:", response.status);
     const data = await handleResponse(response);
@@ -33,23 +32,10 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
     // Filtrer les résultats pour ne garder que les produits pertinents
     if (data.products) {
       data.products = data.products.filter(product => {
-        const productName = product.product_name?.toLowerCase() || "";
+        if (!product.product_name) return false;
+        const productName = product.product_name.toLowerCase();
         const searchTerm = query.toLowerCase();
-        return productName.includes(searchTerm) || 
-               (product.brands_tags && product.brands_tags.some(brand => 
-                 brand.toLowerCase().includes(searchTerm)
-               ));
-      });
-      
-      // Trier les résultats pour mettre en avant les correspondances exactes
-      data.products.sort((a, b) => {
-        const aName = a.product_name?.toLowerCase() || "";
-        const bName = b.product_name?.toLowerCase() || "";
-        const searchTerm = query.toLowerCase();
-        
-        if (aName === searchTerm && bName !== searchTerm) return -1;
-        if (bName === searchTerm && aName !== searchTerm) return 1;
-        return 0;
+        return productName.includes(searchTerm);
       });
       
       data.count = data.products.length;

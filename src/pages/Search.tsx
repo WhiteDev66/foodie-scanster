@@ -37,6 +37,13 @@ const Search = () => {
     return () => clearTimeout(timeoutId);
   };
 
+  const getNutriscore = (product: Product) => {
+    if (!product.nutriscore_grade) {
+      return "Non disponible";
+    }
+    return `Nutriscore : ${product.nutriscore_grade.toUpperCase()}`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -82,18 +89,22 @@ const Search = () => {
                     <SearchIcon className="h-6 w-6 text-gray-400" />
                   </div>
                 )}
-                <div>
+                <div className="flex-1">
                   <h2 className="font-medium text-brand-800">
-                    {product.product_name}
+                    {product.product_name || "Nom inconnu"}
                   </h2>
-                  {product.nutriscore_grade && (
-                    <span className="text-sm text-brand-600">
-                      Nutriscore : {product.nutriscore_grade.toUpperCase()}
-                    </span>
-                  )}
+                  <span className="text-sm text-brand-600">
+                    {getNutriscore(product)}
+                  </span>
                 </div>
               </Link>
             ))}
+            
+            {data?.products?.length === 0 && debouncedQuery && (
+              <div className="text-center py-4 text-gray-500">
+                Aucun produit trouvé pour "{debouncedQuery}"
+              </div>
+            )}
           </div>
         </div>
       </div>
