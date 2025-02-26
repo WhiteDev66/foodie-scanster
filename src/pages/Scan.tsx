@@ -19,62 +19,43 @@ const Scan = () => {
       setError(null);
       setIsScanning(true);
 
-      // 1. Initialize video element
-      if (!videoRef.current) {
-        throw new Error("Référence vidéo non initialisée");
-      }
-
-      // 2. Request camera permissions first
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "environment",
-          width: { min: 640, ideal: 1280, max: 1920 },
-          height: { min: 480, ideal: 720, max: 1080 }
-        },
-        audio: false
-      });
-
-      // 3. Set up video stream
-      videoRef.current.srcObject = stream;
-      await videoRef.current.play();
-
-      // 4. Initialize QR code reader
       const codeReader = new BrowserMultiFormatReader();
       codeReaderRef.current = codeReader;
 
-      // 5. Start decoding from video stream
-      try {
-        const result = await codeReader.decodeFromVideoElement(videoRef.current);
-        if (result) {
-          const barcode = result.getText();
-          console.log("Code-barres détecté:", barcode);
-          
-          try {
-            const exists = await checkProductExists(barcode);
-            if (exists) {
-              stopScanning();
-              navigate(`/product/${barcode}`);
-            } else {
+      await codeReader.decodeFromVideoDevice(
+        undefined, // Utilise la caméra par défaut
+        'video-preview', // ID de l'élément vidéo
+        async (result, err) => {
+          if (result) {
+            const barcode = result.getText();
+            console.log("Code-barres détecté:", barcode);
+            
+            try {
+              const exists = await checkProductExists(barcode);
+              if (exists) {
+                stopScanning();
+                navigate(`/product/${barcode}`);
+              } else {
+                toast({
+                  title: "Produit non trouvé",
+                  description: "Ce produit n'existe pas dans la base de données.",
+                  variant: "destructive",
+                });
+              }
+            } catch (error) {
+              console.error("Erreur lors de la vérification du produit:", error);
               toast({
-                title: "Produit non trouvé",
-                description: "Ce produit n'existe pas dans la base de données.",
                 variant: "destructive",
+                title: "Erreur",
+                description: "Impossible de vérifier le produit. Veuillez réessayer.",
               });
             }
-          } catch (error) {
-            console.error("Erreur lors de la vérification du produit:", error);
-            toast({
-              variant: "destructive",
-              title: "Erreur",
-              description: "Impossible de vérifier le produit. Veuillez réessayer.",
-            });
+          }
+          if (err && !(err instanceof TypeError)) {
+            console.error("Erreur de scan:", err);
           }
         }
-      } catch (err) {
-        if (!(err instanceof TypeError)) {
-          console.error("Erreur de scan:", err);
-        }
-      }
+      );
 
     } catch (err) {
       console.error("Scanning error:", err);
@@ -93,16 +74,15 @@ const Scan = () => {
   };
 
   const stopScanning = () => {
-    // Arrêt du flux vidéo
+    if (codeReaderRef.current) {
+      codeReaderRef.current.reset();
+      codeReaderRef.current = undefined;
+    }
+
     if (videoRef.current?.srcObject instanceof MediaStream) {
       const tracks = videoRef.current.srcObject.getTracks();
       tracks.forEach(track => track.stop());
       videoRef.current.srcObject = null;
-    }
-
-    // Réinitialisation du scanner
-    if (codeReaderRef.current) {
-      codeReaderRef.current.reset();
     }
 
     setIsScanning(false);
@@ -126,6 +106,7 @@ const Scan = () => {
               {isScanning ? (
                 <>
                   <video
+                    id="video-preview"
                     ref={videoRef}
                     className="absolute inset-0 w-full h-full object-cover"
                     playsInline
