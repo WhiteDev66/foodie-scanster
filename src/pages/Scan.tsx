@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrowserMultiFormatReader } from "@zxing/library";
 import { Camera, XCircle } from "lucide-react";
@@ -12,97 +12,68 @@ const Scan = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
-
-  useEffect(() => {
-    const initializeScanner = async () => {
-      try {
-        const codeReader = new BrowserMultiFormatReader();
-        codeReaderRef.current = codeReader;
-      } catch (err) {
-        console.error("Scanner initialization error:", err);
-        setError("Erreur d'initialisation du scanner");
-      }
-    };
-
-    initializeScanner();
-
-    return () => {
-      if (codeReaderRef.current) {
-        codeReaderRef.current.reset();
-      }
-    };
-  }, []);
+  const codeReaderRef = useRef<BrowserMultiFormatReader>();
 
   const startScanning = async () => {
     try {
-      console.log("Starting scan...");
       setError(null);
       setIsScanning(true);
 
+      // 1. Initialize video element
       if (!videoRef.current) {
         throw new Error("Référence vidéo non initialisée");
       }
 
-      const constraints = {
+      // 2. Request camera permissions first
+      const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: { exact: "environment" },
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
-      };
+          facingMode: "environment",
+          width: { min: 640, ideal: 1280, max: 1920 },
+          height: { min: 480, ideal: 720, max: 1080 }
+        },
+        audio: false
+      });
 
-      // Tentative d'obtention des permissions de la caméra
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      // 3. Set up video stream
       videoRef.current.srcObject = stream;
-      videoRef.current.play();
+      await videoRef.current.play();
 
-      if (!codeReaderRef.current) {
-        throw new Error("Scanner non initialisé");
-      }
+      // 4. Initialize QR code reader
+      const codeReader = new BrowserMultiFormatReader();
+      codeReaderRef.current = codeReader;
 
-      // Initialisation du scanner une fois que la vidéo est prête
-      videoRef.current.onloadedmetadata = async () => {
-        try {
-          await codeReaderRef.current.decodeFromVideoDevice(
-            null, // Utilise la caméra par défaut
-            videoRef.current!,
-            async (result, err) => {
-              if (result) {
-                const barcode = result.getText();
-                console.log("Code-barres détecté:", barcode);
-                
-                try {
-                  const exists = await checkProductExists(barcode);
-                  if (exists) {
-                    stopScanning();
-                    navigate(`/product/${barcode}`);
-                  } else {
-                    toast({
-                      title: "Produit non trouvé",
-                      description: "Ce produit n'existe pas dans la base de données.",
-                      variant: "destructive",
-                    });
-                  }
-                } catch (error) {
-                  console.error("Erreur lors de la vérification du produit:", error);
-                  toast({
-                    variant: "destructive",
-                    title: "Erreur",
-                    description: "Impossible de vérifier le produit. Veuillez réessayer.",
-                  });
-                }
-              }
-              if (err && !(err instanceof TypeError)) {
-                console.error("Erreur de scan:", err);
-              }
+      // 5. Start decoding from video stream
+      await codeReader.decodeFromVideoElement(videoRef.current, async (result, err) => {
+        if (result) {
+          const barcode = result.getText();
+          console.log("Code-barres détecté:", barcode);
+          
+          try {
+            const exists = await checkProductExists(barcode);
+            if (exists) {
+              stopScanning();
+              navigate(`/product/${barcode}`);
+            } else {
+              toast({
+                title: "Produit non trouvé",
+                description: "Ce produit n'existe pas dans la base de données.",
+                variant: "destructive",
+              });
             }
-          );
-        } catch (error) {
-          console.error("Erreur d'initialisation du scanner:", error);
-          setError("Impossible d'initialiser le scanner");
+          } catch (error) {
+            console.error("Erreur lors de la vérification du produit:", error);
+            toast({
+              variant: "destructive",
+              title: "Erreur",
+              description: "Impossible de vérifier le produit. Veuillez réessayer.",
+            });
+          }
         }
-      };
+        if (err && !(err instanceof TypeError)) {
+          console.error("Erreur de scan:", err);
+        }
+      });
+
     } catch (err) {
       console.error("Scanning error:", err);
       setIsScanning(false);
@@ -120,14 +91,18 @@ const Scan = () => {
   };
 
   const stopScanning = () => {
-    if (videoRef.current?.srcObject) {
-      const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+    // Arrêt du flux vidéo
+    if (videoRef.current?.srcObject instanceof MediaStream) {
+      const tracks = videoRef.current.srcObject.getTracks();
       tracks.forEach(track => track.stop());
       videoRef.current.srcObject = null;
     }
+
+    // Réinitialisation du scanner
     if (codeReaderRef.current) {
       codeReaderRef.current.reset();
     }
+
     setIsScanning(false);
   };
 
@@ -169,7 +144,7 @@ const Scan = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <button
                     onClick={startScanning}
-                    className="btn-primary flex items-center space-x-2"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors"
                   >
                     <Camera className="h-5 w-5" />
                     <span>Activer la caméra</span>
