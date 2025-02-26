@@ -43,7 +43,8 @@ const Scan = () => {
       codeReaderRef.current = codeReader;
 
       // 5. Start decoding from video stream
-      await codeReader.decodeFromVideoElement(videoRef.current, async (result, err) => {
+      try {
+        const result = await codeReader.decodeFromVideoElement(videoRef.current);
         if (result) {
           const barcode = result.getText();
           console.log("Code-barres détecté:", barcode);
@@ -69,10 +70,11 @@ const Scan = () => {
             });
           }
         }
-        if (err && !(err instanceof TypeError)) {
+      } catch (err) {
+        if (!(err instanceof TypeError)) {
           console.error("Erreur de scan:", err);
         }
-      });
+      }
 
     } catch (err) {
       console.error("Scanning error:", err);
