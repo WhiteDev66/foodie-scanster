@@ -15,19 +15,17 @@ const Scan = () => {
   const codeReaderRef = useRef<BrowserMultiFormatReader | null>(null);
 
   useEffect(() => {
-    // Configuration initiale du lecteur de code-barres
-    const codeReader = new BrowserMultiFormatReader();
-    codeReaderRef.current = codeReader;
+    const initializeScanner = async () => {
+      try {
+        const codeReader = new BrowserMultiFormatReader();
+        codeReaderRef.current = codeReader;
+      } catch (err) {
+        console.error("Scanner initialization error:", err);
+        setError("Erreur d'initialisation du scanner");
+      }
+    };
 
-    // Vérification des permissions de la caméra
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-      .then(() => {
-        console.log("Camera permission granted");
-      })
-      .catch((err) => {
-        console.error("Camera permission error:", err);
-        setError("Veuillez autoriser l'accès à la caméra dans les paramètres de votre navigateur");
-      });
+    initializeScanner();
 
     return () => {
       if (codeReaderRef.current) {
@@ -42,66 +40,77 @@ const Scan = () => {
       setError(null);
       setIsScanning(true);
 
-      if (!codeReaderRef.current || !videoRef.current) {
-        console.error("Scanner or video ref not initialized");
-        return;
+      if (!videoRef.current) {
+        throw new Error("Référence vidéo non initialisée");
       }
 
-      const videoInputDevices = await codeReaderRef.current.listVideoInputDevices();
-      console.log("Available cameras:", videoInputDevices);
-      
-      if (videoInputDevices.length === 0) {
-        throw new Error("Aucune caméra détectée");
-      }
-
-      // Utilise la caméra arrière sur mobile en priorité
-      const preferredCamera = videoInputDevices.find(device => 
-        device.label.toLowerCase().includes('back') || 
-        device.label.toLowerCase().includes('arrière') ||
-        device.label.toLowerCase().includes('environment')
-      ) || videoInputDevices[0];
-
-      console.log("Selected camera:", preferredCamera);
-
-      await codeReaderRef.current.decodeFromVideoDevice(
-        preferredCamera.deviceId,
-        videoRef.current,
-        async (result, err) => {
-          if (result) {
-            const barcode = result.getText();
-            console.log("Code-barres détecté:", barcode);
-            
-            try {
-              const exists = await checkProductExists(barcode);
-              if (exists) {
-                codeReaderRef.current?.reset();
-                setIsScanning(false);
-                navigate(`/product/${barcode}`);
-              } else {
-                toast({
-                  title: "Produit non trouvé",
-                  description: "Ce produit n'existe pas dans la base de données.",
-                  variant: "destructive",
-                });
-              }
-            } catch (error) {
-              console.error("Erreur lors de la vérification du produit:", error);
-              toast({
-                variant: "destructive",
-                title: "Erreur",
-                description: "Impossible de vérifier le produit. Veuillez réessayer.",
-              });
-            }
-          }
-          if (err && !(err instanceof TypeError)) {
-            console.error("Erreur de scan:", err);
-          }
+      const constraints = {
+        video: {
+          facingMode: { exact: "environment" },
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
         }
-      );
+      };
+
+      // Tentative d'obtention des permissions de la caméra
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      videoRef.current.srcObject = stream;
+      videoRef.current.play();
+
+      if (!codeReaderRef.current) {
+        throw new Error("Scanner non initialisé");
+      }
+
+      // Initialisation du scanner une fois que la vidéo est prête
+      videoRef.current.onloadedmetadata = async () => {
+        try {
+          await codeReaderRef.current.decodeFromVideoDevice(
+            null, // Utilise la caméra par défaut
+            videoRef.current!,
+            async (result, err) => {
+              if (result) {
+                const barcode = result.getText();
+                console.log("Code-barres détecté:", barcode);
+                
+                try {
+                  const exists = await checkProductExists(barcode);
+                  if (exists) {
+                    stopScanning();
+                    navigate(`/product/${barcode}`);
+                  } else {
+                    toast({
+                      title: "Produit non trouvé",
+                      description: "Ce produit n'existe pas dans la base de données.",
+                      variant: "destructive",
+                    });
+                  }
+                } catch (error) {
+                  console.error("Erreur lors de la vérification du produit:", error);
+                  toast({
+                    variant: "destructive",
+                    title: "Erreur",
+                    description: "Impossible de vérifier le produit. Veuillez réessayer.",
+                  });
+                }
+              }
+              if (err && !(err instanceof TypeError)) {
+                console.error("Erreur de scan:", err);
+              }
+            }
+          );
+        } catch (error) {
+          console.error("Erreur d'initialisation du scanner:", error);
+          setError("Impossible d'initialiser le scanner");
+        }
+      };
     } catch (err) {
       console.error("Scanning error:", err);
       setIsScanning(false);
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
+      setError(
+        err instanceof Error 
+          ? err.message 
+          : "Impossible d'accéder à la caméra. Vérifiez vos permissions."
+      );
       toast({
         variant: "destructive",
         title: "Erreur",
@@ -111,10 +120,15 @@ const Scan = () => {
   };
 
   const stopScanning = () => {
+    if (videoRef.current?.srcObject) {
+      const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
     if (codeReaderRef.current) {
       codeReaderRef.current.reset();
-      setIsScanning(false);
     }
+    setIsScanning(false);
   };
 
   return (
@@ -131,20 +145,23 @@ const Scan = () => {
               </p>
             </div>
 
-            <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
+            <div className="relative aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
               {isScanning ? (
                 <>
                   <video
                     ref={videoRef}
-                    className="w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    playsInline
+                    autoPlay
+                    muted
                   />
                   <button
                     onClick={stopScanning}
-                    className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
+                    className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white transition-colors z-10"
                   >
                     <XCircle className="h-6 w-6 text-brand-600" />
                   </button>
-                  <div className="absolute inset-0 border-2 border-brand-500/50">
+                  <div className="absolute inset-0 border-2 border-brand-500/50 z-10">
                     <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-0.5 bg-brand-500/50 animate-pulse" />
                   </div>
                 </>
