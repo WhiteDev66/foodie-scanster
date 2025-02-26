@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrowserMultiFormatReader } from "@zxing/library";
-import { Camera, XCircle } from "lucide-react";
+import { Camera, XCircle, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { checkProductExists } from "../services/api";
 
@@ -12,22 +12,31 @@ const Scan = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastScannedCode, setLastScannedCode] = useState<string | null>(null);
   const codeReaderRef = useRef<BrowserMultiFormatReader>();
 
   const startScanning = async () => {
     try {
       setError(null);
       setIsScanning(true);
+      setLastScannedCode(null);
 
       const codeReader = new BrowserMultiFormatReader();
       codeReaderRef.current = codeReader;
 
       await codeReader.decodeFromVideoDevice(
-        undefined, // Utilise la caméra par défaut
-        'video-preview', // ID de l'élément vidéo
+        undefined,
+        'video-preview',
         async (result, err) => {
           if (result) {
             const barcode = result.getText();
+            
+            // Éviter de scanner plusieurs fois le même code en peu de temps
+            if (barcode === lastScannedCode) {
+              return;
+            }
+            
+            setLastScannedCode(barcode);
             console.log("Code-barres détecté:", barcode);
             
             try {
@@ -38,9 +47,11 @@ const Scan = () => {
               } else {
                 toast({
                   title: "Produit non trouvé",
-                  description: "Ce produit n'existe pas dans la base de données.",
+                  description: "Ce produit n'existe pas dans notre base de données. Essayez un autre produit.",
                   variant: "destructive",
                 });
+                // Reset le dernier code scanné après un délai pour permettre de rescanner le même produit
+                setTimeout(() => setLastScannedCode(null), 2000);
               }
             } catch (error) {
               console.error("Erreur lors de la vérification du produit:", error);
@@ -49,6 +60,7 @@ const Scan = () => {
                 title: "Erreur",
                 description: "Impossible de vérifier le produit. Veuillez réessayer.",
               });
+              setTimeout(() => setLastScannedCode(null), 2000);
             }
           }
           if (err && !(err instanceof TypeError)) {
@@ -124,14 +136,21 @@ const Scan = () => {
                   </div>
                 </>
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
                   <button
                     onClick={startScanning}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors mb-4"
                   >
                     <Camera className="h-5 w-5" />
                     <span>Activer la caméra</span>
                   </button>
+                  
+                  <div className="text-center text-gray-500 mt-4">
+                    <div className="flex items-center justify-center mb-2">
+                      <AlertCircle className="h-5 w-5 mr-2 text-brand-600" />
+                      <span>Assurez-vous que le code-barres est bien visible et éclairé</span>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
