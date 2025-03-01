@@ -23,7 +23,7 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
   }
   
   try {
-    // Utilisation des paramètres de recherche optimisés pour trouver les produits
+    // Ajout des catégories dans les champs demandés
     const response = await fetch(
       `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=fr&brands_tags=${encodeURIComponent(query.toLowerCase())}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
     );
@@ -81,6 +81,7 @@ export async function getProduct(barcode: string): Promise<Product> {
   }
   
   try {
+    // Ajout des catégories dans les champs demandés
     const response = await fetch(
       `${API_URL}/product/${barcode}?fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments`
     );
