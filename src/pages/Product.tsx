@@ -139,6 +139,9 @@ const Product = () => {
   // Utiliser une image générique si aucune image n'est disponible
   const productImage = product.image_url || getGenericImage(product);
 
+  // Convertir nova_group en nombre pour la comparaison
+  const novaGroup = product.nova_group ? Number(product.nova_group) : null;
+
   return (
     <div className="min-h-screen bg-[#F1F0FB]">
       <div className="container mx-auto px-4 py-8">
@@ -171,17 +174,17 @@ const Product = () => {
                 {product.product_name || `Produit (${barcode})`}
               </h1>
               
-              {product.nova_group && (
+              {novaGroup && (
                 <div className="bg-[#E5DEFF]/30 p-4 rounded-lg">
                   <h2 className="text-lg font-medium mb-2 text-[#52769b]">Groupe NOVA</h2>
                   <div className="inline-block px-3 py-1 rounded-full bg-[#D3E4FD] text-[#3f5d82] font-bold">
-                    {product.nova_group}
+                    {novaGroup}
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    {product.nova_group === 1 ? "Aliments peu ou pas transformés" :
-                     product.nova_group === 2 ? "Ingrédients culinaires transformés" :
-                     product.nova_group === 3 ? "Aliments transformés" :
-                     product.nova_group === 4 ? "Aliments ultra-transformés" : ""}
+                    {novaGroup === 1 ? "Aliments peu ou pas transformés" :
+                     novaGroup === 2 ? "Ingrédients culinaires transformés" :
+                     novaGroup === 3 ? "Aliments transformés" :
+                     novaGroup === 4 ? "Aliments ultra-transformés" : ""}
                   </p>
                 </div>
               )}
