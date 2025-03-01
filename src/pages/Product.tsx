@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProduct } from "../services/api";
@@ -55,10 +54,53 @@ const getGenericImage = (product) => {
   return GENERIC_IMAGES[category] || GENERIC_IMAGES.default;
 };
 
+// Couleurs pour le Nutriscore selon Open Food Facts
+const NUTRISCORE_COLORS = {
+  a: "#038141", // Vert foncé
+  b: "#85BB2F", // Vert clair
+  c: "#FECB02", // Jaune
+  d: "#EF8200", // Orange
+  e: "#E63E11", // Rouge
+  unknown: "#787878", // Gris pour inconnu
+};
+
+// Composant pour afficher le Nutriscore avec sa couleur correspondante
+const NutriscoreGrade = ({ grade }) => {
+  const normalizedGrade = grade ? grade.toLowerCase() : "unknown";
+  const color = NUTRISCORE_COLORS[normalizedGrade] || NUTRISCORE_COLORS.unknown;
+  
+  return (
+    <div className="flex flex-col items-center">
+      <div 
+        className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl mb-1"
+        style={{ backgroundColor: color }}
+      >
+        {normalizedGrade !== "unknown" ? normalizedGrade.toUpperCase() : "?"}
+      </div>
+      <span className="text-xs text-gray-600 font-medium">Nutriscore</span>
+    </div>
+  );
+};
+
+// Composant pour afficher une valeur nutritionnelle formatée
+const NutritionValue = ({ label, value, unit = "g" }) => {
+  if (value === undefined || value === null) return null;
+  
+  return (
+    <div className="text-gray-600 bg-white/50 p-2 rounded-md flex justify-between">
+      <span>{label}:</span>
+      <span className="font-medium text-[#52769b]">
+        {typeof value === 'number' ? value.toFixed(value % 1 === 0 ? 0 : 1) : value}
+        {unit}
+      </span>
+    </div>
+  );
+};
+
 const Product = () => {
   const { barcode } = useParams();
   
-  const { data: product, isLoading } = useQuery({
+  const { data: product, isLoading, error } = useQuery({
     queryKey: ["product", barcode],
     queryFn: () => getProduct(barcode || ""),
     enabled: !!barcode,
@@ -74,7 +116,7 @@ const Product = () => {
     );
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
       <div className="min-h-screen bg-[#F1F0FB] flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-xl shadow-sm">
@@ -108,6 +150,12 @@ const Product = () => {
                 alt={product.product_name || "Image du produit"}
                 className="w-full h-64 object-contain rounded-lg bg-[#FDE1D3] p-4 transition-all duration-300 hover:scale-[1.02]"
               />
+              
+              {product.nutriscore_grade && (
+                <div className="mt-6 flex justify-center">
+                  <NutriscoreGrade grade={product.nutriscore_grade} />
+                </div>
+              )}
             </div>
             <div className="space-y-6">
               {!product.product_name && (
@@ -123,12 +171,18 @@ const Product = () => {
                 {product.product_name || `Produit (${barcode})`}
               </h1>
               
-              {product.nutriscore_grade && (
-                <div>
-                  <h2 className="text-lg font-medium mb-2 text-[#52769b]">Nutriscore</h2>
+              {product.nova_group && (
+                <div className="bg-[#E5DEFF]/30 p-4 rounded-lg">
+                  <h2 className="text-lg font-medium mb-2 text-[#52769b]">Groupe NOVA</h2>
                   <div className="inline-block px-3 py-1 rounded-full bg-[#D3E4FD] text-[#3f5d82] font-bold">
-                    {product.nutriscore_grade.toUpperCase()}
+                    {product.nova_group}
                   </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {product.nova_group === 1 ? "Aliments peu ou pas transformés" :
+                     product.nova_group === 2 ? "Ingrédients culinaires transformés" :
+                     product.nova_group === 3 ? "Aliments transformés" :
+                     product.nova_group === 4 ? "Aliments ultra-transformés" : ""}
+                  </p>
                 </div>
               )}
 
@@ -137,25 +191,18 @@ const Product = () => {
                   <h2 className="text-lg font-medium mb-2 text-[#52769b]">Valeurs nutritionnelles (pour 100g)</h2>
                   <div className="space-y-2">
                     {product.nutriments.energy_100g && (
-                      <p className="text-gray-600 bg-white/50 p-2 rounded-md">
-                        Énergie: <span className="font-medium text-[#52769b]">{product.nutriments.energy_100g} {product.nutriments.energy_unit || 'kcal'}</span>
-                      </p>
+                      <NutritionValue 
+                        label="Énergie" 
+                        value={product.nutriments.energy_100g} 
+                        unit={product.nutriments.energy_unit || 'kcal'} 
+                      />
                     )}
-                    {product.nutriments.proteins_100g && (
-                      <p className="text-gray-600 bg-white/50 p-2 rounded-md">
-                        Protéines: <span className="font-medium text-[#52769b]">{product.nutriments.proteins_100g}g</span>
-                      </p>
-                    )}
-                    {product.nutriments.carbohydrates_100g && (
-                      <p className="text-gray-600 bg-white/50 p-2 rounded-md">
-                        Glucides: <span className="font-medium text-[#52769b]">{product.nutriments.carbohydrates_100g}g</span>
-                      </p>
-                    )}
-                    {product.nutriments.fat_100g && (
-                      <p className="text-gray-600 bg-white/50 p-2 rounded-md">
-                        Matières grasses: <span className="font-medium text-[#52769b]">{product.nutriments.fat_100g}g</span>
-                      </p>
-                    )}
+                    <NutritionValue label="Protéines" value={product.nutriments.proteins_100g} />
+                    <NutritionValue label="Glucides" value={product.nutriments.carbohydrates_100g} />
+                    <NutritionValue label="Sucres" value={product.nutriments.sugars_100g} />
+                    <NutritionValue label="Matières grasses" value={product.nutriments.fat_100g} />
+                    <NutritionValue label="Acides gras saturés" value={product.nutriments.saturated_fat_100g} />
+                    <NutritionValue label="Sel" value={product.nutriments.salt_100g} />
                   </div>
                 </div>
               )}
@@ -176,7 +223,7 @@ const Product = () => {
                         key={label}
                         className="px-2 py-1 rounded-full bg-[#FFDEE2]/50 text-[#52769b] text-sm"
                       >
-                        {label.replace("en:", "")}
+                        {label.replace("en:", "").replace("fr:", "")}
                       </span>
                     ))}
                   </div>
