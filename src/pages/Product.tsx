@@ -2,7 +2,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CircleAlert } from "lucide-react";
+import { ArrowLeft, CircleAlert, Heart, AlertTriangle, ThumbsUp, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -89,6 +89,86 @@ const NovaGroup = ({ group }: { group: string | number | undefined | null }) => 
   );
 };
 
+// Nouveau composant pour évaluer la santé du produit
+const HealthAssessment = ({ product }: { product: any }) => {
+  if (!product) return null;
+  
+  const nutriscoreGrade = product.nutriscore_grade?.toUpperCase();
+  const novaGroup = product.nova_group ? (typeof product.nova_group === 'string' ? parseInt(product.nova_group, 10) : product.nova_group) : null;
+  const sugarContent = product.nutriments?.sugars;
+  const saltContent = product.nutriments?.salt;
+  const fatContent = product.nutriments?.fat;
+  const saturatedFatContent = product.nutriments?.["saturated-fat"];
+  
+  // Déterminer si le produit est sain ou non
+  const isHealthy = (
+    (nutriscoreGrade === 'A' || nutriscoreGrade === 'B') && 
+    (novaGroup === 1 || novaGroup === 2)
+  );
+  
+  const isUnhealthy = (
+    (nutriscoreGrade === 'D' || nutriscoreGrade === 'E') || 
+    novaGroup === 4
+  );
+  
+  // Déterminer les risques potentiels pour la santé
+  const healthRisks = [];
+  
+  if (sugarContent && sugarContent > 10) {
+    healthRisks.push("Risque de diabète et d'obésité en cas de consommation excessive");
+  }
+  
+  if (saltContent && saltContent > 1.5) {
+    healthRisks.push("Risque d'hypertension artérielle en cas de consommation excessive");
+  }
+  
+  if (fatContent && fatContent > 15) {
+    healthRisks.push("Risque de problèmes cardiovasculaires en cas de consommation excessive");
+  }
+  
+  if (saturatedFatContent && saturatedFatContent > 5) {
+    healthRisks.push("Risque accru de maladies cardiaques en cas de consommation excessive");
+  }
+  
+  if (novaGroup === 4) {
+    healthRisks.push("Les aliments ultra-transformés sont associés à un risque accru de cancer, d'obésité et de maladies cardiaques");
+  }
+  
+  return (
+    <div className="bg-white/80 rounded-lg shadow-sm p-4 mb-4">
+      <h2 className="text-lg font-semibold mb-3">Évaluation de la santé</h2>
+      
+      <div className={`p-3 rounded-md mb-4 flex gap-2 items-center ${isHealthy ? 'bg-green-100' : isUnhealthy ? 'bg-red-100' : 'bg-yellow-100'}`}>
+        {isHealthy ? (
+          <ThumbsUp className="h-5 w-5 text-green-600" />
+        ) : isUnhealthy ? (
+          <AlertTriangle className="h-5 w-5 text-red-600" />
+        ) : (
+          <AlertCircle className="h-5 w-5 text-yellow-600" />
+        )}
+        <span className={`font-medium ${isHealthy ? 'text-green-800' : isUnhealthy ? 'text-red-800' : 'text-yellow-800'}`}>
+          {isHealthy 
+            ? "Ce produit est généralement bon pour la santé" 
+            : isUnhealthy 
+              ? "Ce produit n'est pas recommandé pour une consommation régulière" 
+              : "Ce produit est à consommer avec modération"}
+        </span>
+      </div>
+      
+      {healthRisks.length > 0 && (
+        <div>
+          <h3 className="text-md font-medium mb-2 text-red-700">Risques potentiels pour la santé:</h3>
+          <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+            {healthRisks.map((risk, index) => (
+              <li key={index}>{risk}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Product = () => {
   const { barcode } = useParams();
   const navigate = useNavigate();
@@ -157,6 +237,9 @@ const Product = () => {
       {product?.brands && (
         <p className="text-gray-600 mb-4">{product.brands}</p>
       )}
+      
+      {/* Nouvel emplacement pour l'évaluation de la santé */}
+      <HealthAssessment product={product} />
       
       {/* Affichage du Nutriscore */}
       {product?.nutriscore_grade && (
