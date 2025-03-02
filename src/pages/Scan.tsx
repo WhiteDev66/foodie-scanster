@@ -5,16 +5,18 @@ import { BrowserMultiFormatReader } from "@zxing/library";
 import { Camera, XCircle, AlertCircle, ScanLine, ScanBarcode, Move, Maximize } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { checkProductExists } from "../services/api";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const Scan = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastScannedCode, setLastScannedCode] = useState<string | null>(null);
   const codeReaderRef = useRef<BrowserMultiFormatReader>();
-  const [scanInstructions, setScanInstructions] = useState("Placez le code-barres au centre");
+  const [scanInstructions, setScanInstructions] = useState(t("scan_tip_3"));
   const [scanStatus, setScanStatus] = useState<"idle" | "searching" | "detected" | "reading">("idle");
   const [cameraLight, setCameraLight] = useState<"good" | "medium" | "low">("good");
   const [isBarcodeCentered, setIsBarcodeCentered] = useState(false);
@@ -58,7 +60,7 @@ const Scan = () => {
           setScanInstructions("Améliorez l'éclairage si possible");
         } else {
           setCameraLight("good");
-          setScanInstructions("Placez le code-barres au centre");
+          setScanInstructions(t("scan_tip_3"));
         }
       } catch (err) {
         console.error("Erreur d'analyse de luminosité:", err);
@@ -67,7 +69,7 @@ const Scan = () => {
     
     const lightingInterval = setInterval(checkLighting, 1000);
     return () => clearInterval(lightingInterval);
-  }, [isScanning]);
+  }, [isScanning, t]);
 
   const startScanning = async () => {
     try {
@@ -103,7 +105,7 @@ const Scan = () => {
             // Ajout d'une légère animation de succès
             setTimeout(() => {
               setScanStatus("reading");
-              setScanInstructions("Lecture en cours...");
+              setScanInstructions(t("loading"));
             }, 300);
             
             try {
@@ -119,14 +121,14 @@ const Scan = () => {
                 setScanStatus("idle");
                 setIsBarcodeCentered(false);
                 toast({
-                  title: "Produit non trouvé",
-                  description: "Ce produit n'existe pas dans notre base de données. Essayez un autre produit.",
+                  title: t("product_not_found"),
+                  description: t("product_not_found"),
                   variant: "destructive",
                 });
                 // Reset le dernier code scanné après un délai pour permettre de rescanner le même produit
                 setTimeout(() => {
                   setLastScannedCode(null);
-                  setScanInstructions("Placez le code-barres au centre");
+                  setScanInstructions(t("scan_tip_3"));
                 }, 2000);
               }
             } catch (error) {
@@ -135,12 +137,12 @@ const Scan = () => {
               console.error("Erreur lors de la vérification du produit:", error);
               toast({
                 variant: "destructive",
-                title: "Erreur",
-                description: "Impossible de vérifier le produit. Veuillez réessayer.",
+                title: t("error"),
+                description: t("error"),
               });
               setTimeout(() => {
                 setLastScannedCode(null);
-                setScanInstructions("Placez le code-barres au centre");
+                setScanInstructions(t("scan_tip_3"));
               }, 2000);
             }
           }
@@ -157,12 +159,12 @@ const Scan = () => {
       setError(
         err instanceof Error 
           ? err.message 
-          : "Impossible d'accéder à la caméra. Vérifiez vos permissions."
+          : t("error")
       );
       toast({
         variant: "destructive",
-        title: "Erreur",
-        description: "Impossible d'accéder à la caméra. Vérifiez vos permissions.",
+        title: t("error"),
+        description: t("error"),
       });
     }
   };
@@ -245,10 +247,10 @@ const Scan = () => {
           <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-brand-800 mb-2">
-                Scanner un code-barres
+                {t("scan_page_title")}
               </h1>
               <p className="text-brand-600 mb-6">
-                Placez le code-barres du produit face à votre caméra
+                {t("scan_page_subtitle")}
               </p>
             </div>
 
@@ -278,24 +280,24 @@ const Scan = () => {
                     className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors mb-4"
                   >
                     <Camera className="h-5 w-5" />
-                    <span>Activer la caméra</span>
+                    <span>{t("activate_camera")}</span>
                   </button>
                   
                   <div className="text-center text-gray-500 mt-4">
                     <div className="flex flex-col items-center justify-center mb-2 space-y-4">
                       <div className="flex items-center">
                         <AlertCircle className="h-5 w-5 mr-2 text-brand-600" />
-                        <span>Assurez-vous que le code-barres est bien visible et éclairé</span>
+                        <span>{t("scan_tip_1")}</span>
                       </div>
                       
                       <div className="flex items-center">
                         <ScanBarcode className="h-5 w-5 mr-2 text-brand-600" />
-                        <span>Tenez votre téléphone stable pendant le scan</span>
+                        <span>{t("scan_tip_2")}</span>
                       </div>
                       
                       <div className="flex items-center">
                         <ScanLine className="h-5 w-5 mr-2 text-brand-600" />
-                        <span>Alignez le code dans la zone de scan</span>
+                        <span>{t("scan_tip_3")}</span>
                       </div>
                     </div>
                   </div>
@@ -311,12 +313,12 @@ const Scan = () => {
 
             <div className="text-center text-brand-600">
               <p className="text-sm">
-                Ou{" "}
+                {t("or_search")}{" "}
                 <button
                   onClick={() => navigate("/search")}
                   className="text-brand-700 hover:underline"
                 >
-                  recherchez manuellement un produit
+                  {t("search_button")}
                 </button>
               </p>
             </div>
@@ -345,4 +347,3 @@ if (document.styleSheets.length > 0) {
 }
 
 export default Scan;
-
