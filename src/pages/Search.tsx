@@ -6,13 +6,11 @@ import { useQuery } from "@tanstack/react-query";
 import { searchProducts } from "../services/api";
 import { Product } from "../types/api";
 import { useToast } from "@/components/ui/use-toast";
-import { useLanguage } from "../contexts/LanguageContext";
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const { toast } = useToast();
-  const { t } = useLanguage();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["search", debouncedQuery],
@@ -23,8 +21,8 @@ const Search = () => {
       onError: () => {
         toast({
           variant: "destructive",
-          title: t("error"),
-          description: t("error"),
+          title: "Erreur",
+          description: "Impossible de charger les résultats. Veuillez réessayer.",
         });
       }
     }
@@ -41,9 +39,9 @@ const Search = () => {
 
   const getNutriscore = (product: Product) => {
     if (!product.nutriscore_grade) {
-      return t("not_available");
+      return "Non disponible";
     }
-    return `${t("nutriscore")} : ${product.nutriscore_grade.toUpperCase()}`;
+    return `Nutriscore : ${product.nutriscore_grade.toUpperCase()}`;
   };
 
   return (
@@ -56,20 +54,20 @@ const Search = () => {
               type="text"
               value={query}
               onChange={handleSearch}
-              placeholder={t("search_placeholder")}
+              placeholder="Rechercher un produit..."
               className="flex-1 outline-none"
             />
           </div>
 
           {isLoading && (
             <div className="text-center py-8">
-              <div className="animate-pulse">{t("loading")}</div>
+              <div className="animate-pulse">Chargement...</div>
             </div>
           )}
 
           {error && (
             <div className="text-center text-red-600">
-              {t("error")}
+              Une erreur est survenue lors de la recherche.
             </div>
           )}
 
@@ -93,7 +91,7 @@ const Search = () => {
                 )}
                 <div className="flex-1">
                   <h2 className="font-medium text-brand-800">
-                    {product.product_name || t("unknown_name")}
+                    {product.product_name || "Nom inconnu"}
                   </h2>
                   <span className="text-sm text-brand-600">
                     {getNutriscore(product)}
@@ -104,7 +102,7 @@ const Search = () => {
             
             {data?.products?.length === 0 && debouncedQuery && (
               <div className="text-center py-4 text-gray-500">
-                {t("product_not_found")} "{debouncedQuery}"
+                Aucun produit trouvé pour "{debouncedQuery}"
               </div>
             )}
           </div>
