@@ -3,6 +3,7 @@ import { Search, Camera, ArrowRight, Apple, Leaf, AlertCircle, ShoppingCart } fr
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import LanguageSelector from "../components/LanguageSelector";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -39,6 +40,10 @@ const Index = () => {
           
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className={`text-center space-y-8 transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+              <div className="flex items-center justify-center mb-4">
+                <LanguageSelector />
+              </div>
+              
               <h1 className="text-4xl md:text-6xl font-bold text-brand-800">
                 {t('hero.title')}
               </h1>
