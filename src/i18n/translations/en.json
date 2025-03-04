@@ -33,5 +33,67 @@
   },
   "footer": {
     "poweredBy": "Powered by Open Food Facts"
+  },
+  "search": {
+    "loading": "Loading...",
+    "error": {
+      "title": "Error",
+      "description": "Could not load results. Please try again.",
+      "message": "An error occurred during the search."
+    },
+    "unknownName": "Unknown name",
+    "noResults": "No products found for \"{query}\"",
+    "nutriscore": {
+      "label": "Nutriscore",
+      "notAvailable": "Not available"
+    }
+  },
+  "product": {
+    "loading": "Loading product...",
+    "error": "Error loading product",
+    "back": "Back",
+    "unknownProduct": "Unknown product",
+    "nutriscore": {
+      "label": "Nutriscore"
+    },
+    "nova": {
+      "label": "NOVA Group",
+      "group1": "Unprocessed or minimally processed foods",
+      "group2": "Processed culinary ingredients",
+      "group3": "Processed foods",
+      "group4": "Ultra-processed foods and drinks",
+      "unknown": "Information not available"
+    },
+    "health": {
+      "title": "Health Assessment",
+      "good": "This product is generally good for health",
+      "moderate": "This product should be consumed in moderation",
+      "bad": "This product is not recommended for regular consumption",
+      "risksTitle": "Potential health risks",
+      "risks": {
+        "sugar": "Risk of diabetes and obesity if consumed excessively",
+        "salt": "Risk of high blood pressure if consumed excessively",
+        "fat": "Risk of cardiovascular problems if consumed excessively",
+        "saturatedFat": "Increased risk of heart disease if consumed excessively",
+        "ultraProcessed": "Ultra-processed foods are associated with increased risk of cancer, obesity and heart disease"
+      }
+    },
+    "nutrition": {
+      "title": "Nutritional Information",
+      "energy": "Energy",
+      "fat": "Fat",
+      "saturatedFat": "of which saturated fat",
+      "carbs": "Carbohydrates",
+      "sugars": "of which sugars",
+      "fiber": "Dietary fiber",
+      "proteins": "Proteins",
+      "salt": "Salt"
+    },
+    "ingredients": {
+      "title": "Ingredients"
+    },
+    "allergens": {
+      "title": "Allergens"
+    }
   }
 }

@@ -33,5 +33,67 @@
   },
   "footer": {
     "poweredBy": "Powered by Open Food Facts"
+  },
+  "search": {
+    "loading": "Laden...",
+    "error": {
+      "title": "Fehler",
+      "description": "Ergebnisse konnten nicht geladen werden. Bitte versuche es erneut.",
+      "message": "Bei der Suche ist ein Fehler aufgetreten."
+    },
+    "unknownName": "Unbekannter Name",
+    "noResults": "Keine Produkte gefunden für \"{query}\"",
+    "nutriscore": {
+      "label": "Nutriscore",
+      "notAvailable": "Nicht verfügbar"
+    }
+  },
+  "product": {
+    "loading": "Produkt wird geladen...",
+    "error": "Fehler beim Laden des Produkts",
+    "back": "Zurück",
+    "unknownProduct": "Unbekanntes Produkt",
+    "nutriscore": {
+      "label": "Nutriscore"
+    },
+    "nova": {
+      "label": "NOVA-Gruppe",
+      "group1": "Unverarbeitete oder minimal verarbeitete Lebensmittel",
+      "group2": "Verarbeitete kulinarische Zutaten",
+      "group3": "Verarbeitete Lebensmittel",
+      "group4": "Hochverarbeitete Lebensmittel und Getränke",
+      "unknown": "Information nicht verfügbar"
+    },
+    "health": {
+      "title": "Gesundheitsbewertung",
+      "good": "Dieses Produkt ist im Allgemeinen gut für die Gesundheit",
+      "moderate": "Dieses Produkt sollte in Maßen konsumiert werden",
+      "bad": "Dieses Produkt wird nicht für den regelmäßigen Verzehr empfohlen",
+      "risksTitle": "Potenzielle Gesundheitsrisiken",
+      "risks": {
+        "sugar": "Risiko für Diabetes und Fettleibigkeit bei übermäßigem Verzehr",
+        "salt": "Risiko für Bluthochdruck bei übermäßigem Verzehr",
+        "fat": "Risiko für Herz-Kreislauf-Probleme bei übermäßigem Verzehr",
+        "saturatedFat": "Erhöhtes Risiko für Herzerkrankungen bei übermäßigem Verzehr",
+        "ultraProcessed": "Hochverarbeitete Lebensmittel sind mit einem erhöhten Risiko für Krebs, Fettleibigkeit und Herzerkrankungen verbunden"
+      }
+    },
+    "nutrition": {
+      "title": "Nährwertinformationen",
+      "energy": "Energie",
+      "fat": "Fett",
+      "saturatedFat": "davon gesättigte Fettsäuren",
+      "carbs": "Kohlenhydrate",
+      "sugars": "davon Zucker",
+      "fiber": "Ballaststoffe",
+      "proteins": "Proteine",
+      "salt": "Salz"
+    },
+    "ingredients": {
+      "title": "Zutaten"
+    },
+    "allergens": {
+      "title": "Allergene"
+    }
   }
 }

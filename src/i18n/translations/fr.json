@@ -32,6 +32,68 @@
     "button": "Commencer maintenant"
   },
   "footer": {
-    "poweredBy": "Powered by Open Food Facts"
+    "poweredBy": "Propulsé par Open Food Facts"
+  },
+  "search": {
+    "loading": "Chargement...",
+    "error": {
+      "title": "Erreur",
+      "description": "Impossible de charger les résultats. Veuillez réessayer.",
+      "message": "Une erreur est survenue lors de la recherche."
+    },
+    "unknownName": "Nom inconnu",
+    "noResults": "Aucun produit trouvé pour \"{query}\"",
+    "nutriscore": {
+      "label": "Nutriscore",
+      "notAvailable": "Non disponible"
+    }
+  },
+  "product": {
+    "loading": "Chargement du produit...",
+    "error": "Erreur lors du chargement du produit",
+    "back": "Retour",
+    "unknownProduct": "Produit inconnu",
+    "nutriscore": {
+      "label": "Nutriscore"
+    },
+    "nova": {
+      "label": "Groupe NOVA",
+      "group1": "Aliments non transformés ou transformés minimalement",
+      "group2": "Ingrédients culinaires transformés",
+      "group3": "Aliments transformés",
+      "group4": "Produits alimentaires et boissons ultra-transformés",
+      "unknown": "Information non disponible"
+    },
+    "health": {
+      "title": "Évaluation de la santé",
+      "good": "Ce produit est généralement bon pour la santé",
+      "moderate": "Ce produit est à consommer avec modération",
+      "bad": "Ce produit n'est pas recommandé pour une consommation régulière",
+      "risksTitle": "Risques potentiels pour la santé",
+      "risks": {
+        "sugar": "Risque de diabète et d'obésité en cas de consommation excessive",
+        "salt": "Risque d'hypertension artérielle en cas de consommation excessive",
+        "fat": "Risque de problèmes cardiovasculaires en cas de consommation excessive",
+        "saturatedFat": "Risque accru de maladies cardiaques en cas de consommation excessive",
+        "ultraProcessed": "Les aliments ultra-transformés sont associés à un risque accru de cancer, d'obésité et de maladies cardiaques"
+      }
+    },
+    "nutrition": {
+      "title": "Information nutritionnelle",
+      "energy": "Énergie",
+      "fat": "Matières grasses",
+      "saturatedFat": "dont acides gras saturés",
+      "carbs": "Glucides",
+      "sugars": "dont sucres",
+      "fiber": "Fibres alimentaires",
+      "proteins": "Protéines",
+      "salt": "Sel"
+    },
+    "ingredients": {
+      "title": "Ingrédients"
+    },
+    "allergens": {
+      "title": "Allergènes"
+    }
   }
 }

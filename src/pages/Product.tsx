@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, CircleAlert, Heart, AlertTriangle, ThumbsUp, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 // Composant pour afficher une valeur nutritionnelle formatée
 const NutritionValue = ({ label, value, unit = "g" }: { 
@@ -27,6 +28,8 @@ const NutritionValue = ({ label, value, unit = "g" }: {
 
 // Composant pour afficher le Nutriscore avec les couleurs appropriées
 const Nutriscore = ({ grade }: { grade: string | undefined | null }) => {
+  const { t } = useTranslation();
+  
   if (!grade) return null;
   
   const getColor = (score: string) => {
@@ -42,7 +45,7 @@ const Nutriscore = ({ grade }: { grade: string | undefined | null }) => {
   
   return (
     <div className="flex items-center gap-2 mb-4">
-      <span className="font-medium">Nutriscore:</span>
+      <span className="font-medium">{t("product.nutriscore.label", "Nutriscore")}:</span>
       <div className={`${getColor(grade)} text-white font-bold w-8 h-8 rounded-full flex items-center justify-center`}>
         {grade.toUpperCase()}
       </div>
@@ -52,6 +55,8 @@ const Nutriscore = ({ grade }: { grade: string | undefined | null }) => {
 
 // Composant pour afficher le groupe NOVA
 const NovaGroup = ({ group }: { group: string | number | undefined | null }) => {
+  const { t } = useTranslation();
+  
   if (group === undefined || group === null) return null;
   
   const novaNumber = typeof group === 'string' ? parseInt(group, 10) : group;
@@ -68,18 +73,18 @@ const NovaGroup = ({ group }: { group: string | number | undefined | null }) => 
   
   const getDescription = (nova: number) => {
     switch (nova) {
-      case 1: return 'Aliments non transformés ou transformés minimalement';
-      case 2: return 'Ingrédients culinaires transformés';
-      case 3: return 'Aliments transformés';
-      case 4: return 'Produits alimentaires et boissons ultra-transformés';
-      default: return 'Information non disponible';
+      case 1: return t("product.nova.group1", "Aliments non transformés ou transformés minimalement");
+      case 2: return t("product.nova.group2", "Ingrédients culinaires transformés");
+      case 3: return t("product.nova.group3", "Aliments transformés");
+      case 4: return t("product.nova.group4", "Produits alimentaires et boissons ultra-transformés");
+      default: return t("product.nova.unknown", "Information non disponible");
     }
   };
   
   return (
     <div className="mb-4">
       <div className="flex items-center gap-2 mb-1">
-        <span className="font-medium">Groupe NOVA:</span>
+        <span className="font-medium">{t("product.nova.label", "Groupe NOVA")}:</span>
         <div className={`${getColor(novaNumber)} text-white font-bold w-8 h-8 rounded-full flex items-center justify-center`}>
           {novaNumber}
         </div>
@@ -91,6 +96,8 @@ const NovaGroup = ({ group }: { group: string | number | undefined | null }) => 
 
 // Nouveau composant pour évaluer la santé du produit
 const HealthAssessment = ({ product }: { product: any }) => {
+  const { t } = useTranslation();
+  
   if (!product) return null;
   
   const nutriscoreGrade = product.nutriscore_grade?.toUpperCase();
@@ -115,28 +122,28 @@ const HealthAssessment = ({ product }: { product: any }) => {
   const healthRisks = [];
   
   if (sugarContent && sugarContent > 10) {
-    healthRisks.push("Risque de diabète et d'obésité en cas de consommation excessive");
+    healthRisks.push(t("product.health.risks.sugar", "Risque de diabète et d'obésité en cas de consommation excessive"));
   }
   
   if (saltContent && saltContent > 1.5) {
-    healthRisks.push("Risque d'hypertension artérielle en cas de consommation excessive");
+    healthRisks.push(t("product.health.risks.salt", "Risque d'hypertension artérielle en cas de consommation excessive"));
   }
   
   if (fatContent && fatContent > 15) {
-    healthRisks.push("Risque de problèmes cardiovasculaires en cas de consommation excessive");
+    healthRisks.push(t("product.health.risks.fat", "Risque de problèmes cardiovasculaires en cas de consommation excessive"));
   }
   
   if (saturatedFatContent && saturatedFatContent > 5) {
-    healthRisks.push("Risque accru de maladies cardiaques en cas de consommation excessive");
+    healthRisks.push(t("product.health.risks.saturatedFat", "Risque accru de maladies cardiaques en cas de consommation excessive"));
   }
   
   if (novaGroup === 4) {
-    healthRisks.push("Les aliments ultra-transformés sont associés à un risque accru de cancer, d'obésité et de maladies cardiaques");
+    healthRisks.push(t("product.health.risks.ultraProcessed", "Les aliments ultra-transformés sont associés à un risque accru de cancer, d'obésité et de maladies cardiaques"));
   }
   
   return (
     <div className="bg-white/80 rounded-lg shadow-sm p-4 mb-4">
-      <h2 className="text-lg font-semibold mb-3">Évaluation de la santé</h2>
+      <h2 className="text-lg font-semibold mb-3">{t("product.health.title", "Évaluation de la santé")}</h2>
       
       <div className={`p-3 rounded-md mb-4 flex gap-2 items-center ${isHealthy ? 'bg-green-100' : isUnhealthy ? 'bg-red-100' : 'bg-yellow-100'}`}>
         {isHealthy ? (
@@ -148,16 +155,16 @@ const HealthAssessment = ({ product }: { product: any }) => {
         )}
         <span className={`font-medium ${isHealthy ? 'text-green-800' : isUnhealthy ? 'text-red-800' : 'text-yellow-800'}`}>
           {isHealthy 
-            ? "Ce produit est généralement bon pour la santé" 
+            ? t("product.health.good", "Ce produit est généralement bon pour la santé")
             : isUnhealthy 
-              ? "Ce produit n'est pas recommandé pour une consommation régulière" 
-              : "Ce produit est à consommer avec modération"}
+              ? t("product.health.bad", "Ce produit n'est pas recommandé pour une consommation régulière")
+              : t("product.health.moderate", "Ce produit est à consommer avec modération")}
         </span>
       </div>
       
       {healthRisks.length > 0 && (
         <div>
-          <h3 className="text-md font-medium mb-2 text-red-700">Risques potentiels pour la santé:</h3>
+          <h3 className="text-md font-medium mb-2 text-red-700">{t("product.health.risksTitle", "Risques potentiels pour la santé")}:</h3>
           <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
             {healthRisks.map((risk, index) => (
               <li key={index}>{risk}</li>
@@ -173,9 +180,10 @@ const Product = () => {
   const { barcode } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t, i18n } = useTranslation();
   
   const { data: product, isLoading, error } = useQuery({
-    queryKey: ["product", barcode],
+    queryKey: ["product", barcode, i18n.language],
     queryFn: async () => {
       const response = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
       if (!response.ok) {
@@ -190,7 +198,7 @@ const Product = () => {
     return (
       <div className="p-4 flex flex-col items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-        <p className="mt-4 text-gray-600">Chargement du produit...</p>
+        <p className="mt-4 text-gray-600">{t("product.loading", "Chargement du produit...")}</p>
       </div>
     );
   }
@@ -199,13 +207,13 @@ const Product = () => {
     return (
       <div className="p-4 flex flex-col items-center justify-center min-h-screen">
         <CircleAlert className="h-12 w-12 text-red-500" />
-        <p className="mt-4 text-red-600">Erreur lors du chargement du produit</p>
+        <p className="mt-4 text-red-600">{t("product.error", "Erreur lors du chargement du produit")}</p>
         <Button
           variant="outline"
           className="mt-4"
           onClick={() => navigate(-1)}
         >
-          Retour
+          {t("product.back", "Retour")}
         </Button>
       </div>
     );
@@ -226,13 +234,13 @@ const Product = () => {
         <div className="mb-4 flex justify-center">
           <img
             src={product.image_url}
-            alt={product.product_name || "Product image"}
+            alt={product.product_name || t("product.unknownProduct", "Product image")}
             className="rounded-lg shadow-md max-h-64 object-contain"
           />
         </div>
       )}
       
-      <h1 className="text-2xl font-bold mb-2">{product?.product_name || "Produit inconnu"}</h1>
+      <h1 className="text-2xl font-bold mb-2">{product?.product_name || t("product.unknownProduct", "Produit inconnu")}</h1>
       
       {product?.brands && (
         <p className="text-gray-600 mb-4">{product.brands}</p>
@@ -252,29 +260,29 @@ const Product = () => {
       )}
       
       <div className="bg-white/80 rounded-lg shadow-sm p-4 mb-4">
-        <h2 className="text-lg font-semibold mb-3">Information nutritionnelle</h2>
+        <h2 className="text-lg font-semibold mb-3">{t("product.nutrition.title", "Information nutritionnelle")}</h2>
         <div className="space-y-2">
-          <NutritionValue label="Énergie" value={product?.nutriments?.energy} unit="kJ" />
-          <NutritionValue label="Matières grasses" value={product?.nutriments?.fat} />
-          <NutritionValue label="dont acides gras saturés" value={product?.nutriments?.["saturated-fat"]} />
-          <NutritionValue label="Glucides" value={product?.nutriments?.carbohydrates} />
-          <NutritionValue label="dont sucres" value={product?.nutriments?.sugars} />
-          <NutritionValue label="Fibres alimentaires" value={product?.nutriments?.fiber} />
-          <NutritionValue label="Protéines" value={product?.nutriments?.proteins} />
-          <NutritionValue label="Sel" value={product?.nutriments?.salt} />
+          <NutritionValue label={t("product.nutrition.energy", "Énergie")} value={product?.nutriments?.energy} unit="kJ" />
+          <NutritionValue label={t("product.nutrition.fat", "Matières grasses")} value={product?.nutriments?.fat} />
+          <NutritionValue label={t("product.nutrition.saturatedFat", "dont acides gras saturés")} value={product?.nutriments?.["saturated-fat"]} />
+          <NutritionValue label={t("product.nutrition.carbs", "Glucides")} value={product?.nutriments?.carbohydrates} />
+          <NutritionValue label={t("product.nutrition.sugars", "dont sucres")} value={product?.nutriments?.sugars} />
+          <NutritionValue label={t("product.nutrition.fiber", "Fibres alimentaires")} value={product?.nutriments?.fiber} />
+          <NutritionValue label={t("product.nutrition.proteins", "Protéines")} value={product?.nutriments?.proteins} />
+          <NutritionValue label={t("product.nutrition.salt", "Sel")} value={product?.nutriments?.salt} />
         </div>
       </div>
       
       {product?.ingredients_text && (
         <div className="bg-white/80 rounded-lg shadow-sm p-4 mb-4">
-          <h2 className="text-lg font-semibold mb-2">Ingrédients</h2>
+          <h2 className="text-lg font-semibold mb-2">{t("product.ingredients.title", "Ingrédients")}</h2>
           <p className="text-gray-700 text-sm">{product.ingredients_text}</p>
         </div>
       )}
       
       {product?.allergens && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-          <h2 className="text-lg font-semibold text-red-700 mb-2">Allergènes</h2>
+          <h2 className="text-lg font-semibold text-red-700 mb-2">{t("product.allergens.title", "Allergènes")}</h2>
           <p className="text-red-600">{product.allergens}</p>
         </div>
       )}

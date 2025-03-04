@@ -33,5 +33,67 @@
   },
   "footer": {
     "poweredBy": "Powered by Open Food Facts"
+  },
+  "search": {
+    "loading": "読み込み中...",
+    "error": {
+      "title": "エラー",
+      "description": "結果を読み込めませんでした。もう一度お試しください。",
+      "message": "検索中にエラーが発生しました。"
+    },
+    "unknownName": "不明な名前",
+    "noResults": "\"{query}\"に一致する商品が見つかりませんでした",
+    "nutriscore": {
+      "label": "ニュートリスコア",
+      "notAvailable": "利用不可"
+    }
+  },
+  "product": {
+    "loading": "商品を読み込み中...",
+    "error": "商品の読み込み中にエラーが発生しました",
+    "back": "戻る",
+    "unknownProduct": "不明な商品",
+    "nutriscore": {
+      "label": "ニュートリスコア"
+    },
+    "nova": {
+      "label": "NOVAグループ",
+      "group1": "未加工または最小限に加工された食品",
+      "group2": "加工された調理用食材",
+      "group3": "加工食品",
+      "group4": "超加工食品・飲料",
+      "unknown": "情報が利用できません"
+    },
+    "health": {
+      "title": "健康評価",
+      "good": "この商品は一般的に健康に良いです",
+      "moderate": "この商品は適度に摂取すべきです",
+      "bad": "この商品は定期的な摂取には推奨されません",
+      "risksTitle": "潜在的な健康リスク",
+      "risks": {
+        "sugar": "過剰摂取によって糖尿病や肥満のリスクがあります",
+        "salt": "過剰摂取によって高血圧のリスクがあります",
+        "fat": "過剰摂取によって心血管系の問題のリスクがあります",
+        "saturatedFat": "過剰摂取によって心臓病のリスクが高まります",
+        "ultraProcessed": "超加工食品はがん、肥満、心臓病のリスク増加と関連しています"
+      }
+    },
+    "nutrition": {
+      "title": "栄養情報",
+      "energy": "エネルギー",
+      "fat": "脂質",
+      "saturatedFat": "うち飽和脂肪酸",
+      "carbs": "炭水化物",
+      "sugars": "うち糖類",
+      "fiber": "食物繊維",
+      "proteins": "タンパク質",
+      "salt": "食塩相当量"
+    },
+    "ingredients": {
+      "title": "原材料"
+    },
+    "allergens": {
+      "title": "アレルゲン"
+    }
   }
 }

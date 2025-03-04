@@ -22,10 +22,14 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
     return { count: 0, page: 1, page_size: 0, products: [] };
   }
   
+  // Get current language from i18n
+  const language = localStorage.getItem('i18nextLng') || 'en';
+  const langCode = language.substring(0, 2).toLowerCase();
+  
   try {
-    // Ajout des catégories dans les champs demandés
+    // Using language code in API request
     const response = await fetch(
-      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=fr&brands_tags=${encodeURIComponent(query.toLowerCase())}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
+      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=${langCode}&brands_tags=${encodeURIComponent(query.toLowerCase())}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
     );
     console.log("API Response status:", response.status);
     const data = await handleResponse(response);
@@ -34,7 +38,7 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
     // Si aucun résultat avec la marque, essayer une recherche plus large
     if (!data.products?.length) {
       const fallbackResponse = await fetch(
-        `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=fr&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
+        `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=${langCode}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
       );
       const fallbackData = await handleResponse(fallbackResponse);
       data.products = fallbackData.products;
@@ -80,10 +84,14 @@ export async function getProduct(barcode: string): Promise<Product> {
     throw new Error("Barcode is required");
   }
   
+  // Get current language from i18n
+  const language = localStorage.getItem('i18nextLng') || 'en';
+  const langCode = language.substring(0, 2).toLowerCase();
+  
   try {
-    // Ajout des catégories dans les champs demandés
+    // Using language code in API request
     const response = await fetch(
-      `${API_URL}/product/${barcode}?fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments`
+      `${API_URL}/product/${barcode}?fields=code,product_name,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&lc=${langCode}`
     );
     console.log("API Response status:", response.status);
     const data = await handleResponse(response);

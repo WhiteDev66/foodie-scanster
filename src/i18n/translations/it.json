@@ -33,5 +33,67 @@
   },
   "footer": {
     "poweredBy": "Powered by Open Food Facts"
+  },
+  "search": {
+    "loading": "Caricamento...",
+    "error": {
+      "title": "Errore",
+      "description": "Impossibile caricare i risultati. Riprova.",
+      "message": "Si è verificato un errore durante la ricerca."
+    },
+    "unknownName": "Nome sconosciuto",
+    "noResults": "Nessun prodotto trovato per \"{query}\"",
+    "nutriscore": {
+      "label": "Nutriscore",
+      "notAvailable": "Non disponibile"
+    }
+  },
+  "product": {
+    "loading": "Caricamento prodotto...",
+    "error": "Errore durante il caricamento del prodotto",
+    "back": "Indietro",
+    "unknownProduct": "Prodotto sconosciuto",
+    "nutriscore": {
+      "label": "Nutriscore"
+    },
+    "nova": {
+      "label": "Gruppo NOVA",
+      "group1": "Alimenti non trasformati o minimamente trasformati",
+      "group2": "Ingredienti culinari trasformati",
+      "group3": "Alimenti trasformati",
+      "group4": "Prodotti alimentari e bevande ultra-trasformati",
+      "unknown": "Informazioni non disponibili"
+    },
+    "health": {
+      "title": "Valutazione della salute",
+      "good": "Questo prodotto è generalmente buono per la salute",
+      "moderate": "Questo prodotto dovrebbe essere consumato con moderazione",
+      "bad": "Questo prodotto non è raccomandato per il consumo regolare",
+      "risksTitle": "Potenziali rischi per la salute",
+      "risks": {
+        "sugar": "Rischio di diabete e obesità se consumato in eccesso",
+        "salt": "Rischio di ipertensione se consumato in eccesso",
+        "fat": "Rischio di problemi cardiovascolari se consumato in eccesso",
+        "saturatedFat": "Maggior rischio di malattie cardiache se consumato in eccesso",
+        "ultraProcessed": "Gli alimenti ultra-trasformati sono associati a un maggior rischio di cancro, obesità e malattie cardiache"
+      }
+    },
+    "nutrition": {
+      "title": "Informazioni nutrizionali",
+      "energy": "Energia",
+      "fat": "Grassi",
+      "saturatedFat": "di cui acidi grassi saturi",
+      "carbs": "Carboidrati",
+      "sugars": "di cui zuccheri",
+      "fiber": "Fibre alimentari",
+      "proteins": "Proteine",
+      "salt": "Sale"
+    },
+    "ingredients": {
+      "title": "Ingredienti"
+    },
+    "allergens": {
+      "title": "Allergeni"
+    }
   }
 }

@@ -33,5 +33,67 @@
   },
   "footer": {
     "poweredBy": "由 Open Food Facts 提供支持"
+  },
+  "search": {
+    "loading": "加载中...",
+    "error": {
+      "title": "错误",
+      "description": "无法加载结果。请重试。",
+      "message": "搜索过程中发生错误。"
+    },
+    "unknownName": "未知名称",
+    "noResults": "未找到与"{query}"相关的产品",
+    "nutriscore": {
+      "label": "营养评分",
+      "notAvailable": "不可用"
+    }
+  },
+  "product": {
+    "loading": "正在加载产品...",
+    "error": "加载产品时出错",
+    "back": "返回",
+    "unknownProduct": "未知产品",
+    "nutriscore": {
+      "label": "营养评分"
+    },
+    "nova": {
+      "label": "NOVA 分组",
+      "group1": "未加工或微加工食品",
+      "group2": "加工的烹饪配料",
+      "group3": "加工食品",
+      "group4": "超加工食品和饮料",
+      "unknown": "信息不可用"
+    },
+    "health": {
+      "title": "健康评估",
+      "good": "这款产品通常对健康有益",
+      "moderate": "这款产品应适量食用",
+      "bad": "不建议经常食用这款产品",
+      "risksTitle": "潜在健康风险",
+      "risks": {
+        "sugar": "过量食用可能导致糖尿病和肥胖的风险",
+        "salt": "过量食用可能导致高血压的风险",
+        "fat": "过量食用可能导致心血管问题的风险",
+        "saturatedFat": "过量食用可能增加心脏病的风险",
+        "ultraProcessed": "超加工食品与癌症、肥胖和心脏病风险增加有关"
+      }
+    },
+    "nutrition": {
+      "title": "营养信息",
+      "energy": "能量",
+      "fat": "脂肪",
+      "saturatedFat": "其中饱和脂肪",
+      "carbs": "碳水化合物",
+      "sugars": "其中糖",
+      "fiber": "膳食纤维",
+      "proteins": "蛋白质",
+      "salt": "盐"
+    },
+    "ingredients": {
+      "title": "配料"
+    },
+    "allergens": {
+      "title": "过敏原"
+    }
   }
 }

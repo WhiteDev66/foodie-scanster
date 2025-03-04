@@ -33,5 +33,67 @@
   },
   "footer": {
     "poweredBy": "Impulsado por Open Food Facts"
+  },
+  "search": {
+    "loading": "Cargando...",
+    "error": {
+      "title": "Error",
+      "description": "No se pudieron cargar los resultados. Por favor, inténtalo de nuevo.",
+      "message": "Ocurrió un error durante la búsqueda."
+    },
+    "unknownName": "Nombre desconocido",
+    "noResults": "No se encontraron productos para \"{query}\"",
+    "nutriscore": {
+      "label": "Nutriscore",
+      "notAvailable": "No disponible"
+    }
+  },
+  "product": {
+    "loading": "Cargando producto...",
+    "error": "Error al cargar el producto",
+    "back": "Volver",
+    "unknownProduct": "Producto desconocido",
+    "nutriscore": {
+      "label": "Nutriscore"
+    },
+    "nova": {
+      "label": "Grupo NOVA",
+      "group1": "Alimentos no procesados o mínimamente procesados",
+      "group2": "Ingredientes culinarios procesados",
+      "group3": "Alimentos procesados",
+      "group4": "Productos alimenticios y bebidas ultraprocesados",
+      "unknown": "Información no disponible"
+    },
+    "health": {
+      "title": "Evaluación de salud",
+      "good": "Este producto es generalmente bueno para la salud",
+      "moderate": "Este producto debe consumirse con moderación",
+      "bad": "Este producto no se recomienda para consumo regular",
+      "risksTitle": "Riesgos potenciales para la salud",
+      "risks": {
+        "sugar": "Riesgo de diabetes y obesidad si se consume en exceso",
+        "salt": "Riesgo de hipertensión arterial si se consume en exceso",
+        "fat": "Riesgo de problemas cardiovasculares si se consume en exceso",
+        "saturatedFat": "Mayor riesgo de enfermedades cardíacas si se consume en exceso",
+        "ultraProcessed": "Los alimentos ultraprocesados están asociados con un mayor riesgo de cáncer, obesidad y enfermedades cardíacas"
+      }
+    },
+    "nutrition": {
+      "title": "Información nutricional",
+      "energy": "Energía",
+      "fat": "Grasas",
+      "saturatedFat": "de las cuales saturadas",
+      "carbs": "Carbohidratos",
+      "sugars": "de los cuales azúcares",
+      "fiber": "Fibra alimentaria",
+      "proteins": "Proteínas",
+      "salt": "Sal"
+    },
+    "ingredients": {
+      "title": "Ingredientes"
+    },
+    "allergens": {
+      "title": "Alérgenos"
+    }
   }
 }

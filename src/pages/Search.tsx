@@ -6,14 +6,16 @@ import { useQuery } from "@tanstack/react-query";
 import { searchProducts } from "../services/api";
 import { Product } from "../types/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from "react-i18next";
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const { toast } = useToast();
+  const { t, i18n } = useTranslation();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["search", debouncedQuery],
+    queryKey: ["search", debouncedQuery, i18n.language],
     queryFn: () => searchProducts(debouncedQuery),
     enabled: debouncedQuery.length > 0,
     retry: false,
@@ -21,8 +23,8 @@ const Search = () => {
       onError: () => {
         toast({
           variant: "destructive",
-          title: "Erreur",
-          description: "Impossible de charger les résultats. Veuillez réessayer.",
+          title: t("search.error.title", "Erreur"),
+          description: t("search.error.description", "Impossible de charger les résultats. Veuillez réessayer."),
         });
       }
     }
@@ -39,9 +41,9 @@ const Search = () => {
 
   const getNutriscore = (product: Product) => {
     if (!product.nutriscore_grade) {
-      return "Non disponible";
+      return t("search.nutriscore.notAvailable", "Non disponible");
     }
-    return `Nutriscore : ${product.nutriscore_grade.toUpperCase()}`;
+    return `${t("search.nutriscore.label", "Nutriscore")} : ${product.nutriscore_grade.toUpperCase()}`;
   };
 
   return (
@@ -54,20 +56,20 @@ const Search = () => {
               type="text"
               value={query}
               onChange={handleSearch}
-              placeholder="Rechercher un produit..."
+              placeholder={t("header.search", "Rechercher un produit...")}
               className="flex-1 outline-none"
             />
           </div>
 
           {isLoading && (
             <div className="text-center py-8">
-              <div className="animate-pulse">Chargement...</div>
+              <div className="animate-pulse">{t("search.loading", "Chargement...")}</div>
             </div>
           )}
 
           {error && (
             <div className="text-center text-red-600">
-              Une erreur est survenue lors de la recherche.
+              {t("search.error.message", "Une erreur est survenue lors de la recherche.")}
             </div>
           )}
 
@@ -91,7 +93,7 @@ const Search = () => {
                 )}
                 <div className="flex-1">
                   <h2 className="font-medium text-brand-800">
-                    {product.product_name || "Nom inconnu"}
+                    {product.product_name || t("search.unknownName", "Nom inconnu")}
                   </h2>
                   <span className="text-sm text-brand-600">
                     {getNutriscore(product)}
@@ -102,7 +104,7 @@ const Search = () => {
             
             {data?.products?.length === 0 && debouncedQuery && (
               <div className="text-center py-4 text-gray-500">
-                Aucun produit trouvé pour "{debouncedQuery}"
+                {t("search.noResults", 'Aucun produit trouvé pour "{query}"', { query: debouncedQuery })}
               </div>
             )}
           </div>
