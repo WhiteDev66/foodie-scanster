@@ -1,4 +1,3 @@
-
 import { Product, SearchResponse } from "../types/api";
 
 const API_URL = "https://world.openfoodfacts.org/api/v2";
@@ -25,6 +24,8 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
   // Get current language from i18n
   const language = localStorage.getItem('i18nextLng') || 'en';
   const langCode = language.substring(0, 2).toLowerCase();
+  
+  console.log("Current language code for API:", langCode);
   
   try {
     // Using language code in API request

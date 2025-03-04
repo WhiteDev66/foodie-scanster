@@ -35,6 +35,8 @@
     "poweredBy": "Propulsé par Open Food Facts"
   },
   "search": {
+    "title": "Recherche",
+    "placeholder": "Rechercher un produit...",
     "loading": "Chargement...",
     "error": {
       "title": "Erreur",

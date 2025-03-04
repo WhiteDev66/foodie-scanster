@@ -35,6 +35,8 @@
     "poweredBy": "由 Open Food Facts 提供支持"
   },
   "search": {
+    "title": "搜索",
+    "placeholder": "搜索产品...",
     "loading": "加载中...",
     "error": {
       "title": "错误",
@@ -42,7 +44,7 @@
       "message": "搜索过程中发生错误。"
     },
     "unknownName": "未知名称",
-    "noResults": "未找到与"{query}"相关的产品",
+    "noResults": "未找到与\"{query}\"相关的产品",
     "nutriscore": {
       "label": "营养评分",
       "notAvailable": "不可用"
