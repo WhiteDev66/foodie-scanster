@@ -1,0 +1,37 @@
+
+{
+  "header": {
+    "search": "Rechercher",
+    "scan": "Scanner"
+  },
+  "hero": {
+    "title": "Découvrez ce qu'il y a dans vos aliments",
+    "subtitle": "Scannez, recherchez et découvrez la composition nutritionnelle de vos produits alimentaires en quelques secondes.",
+    "scanButton": "Scanner un produit",
+    "searchButton": "Rechercher un produit"
+  },
+  "howItWorks": {
+    "title": "Comment ça fonctionne",
+    "subtitle": "Une application simple et intuitive pour vous aider à faire des choix alimentaires éclairés",
+    "card1": {
+      "title": "Scanner facile",
+      "description": "Utilisez votre caméra pour scanner le code-barres d'un produit et obtenir instantanément ses informations."
+    },
+    "card2": {
+      "title": "Recherche rapide",
+      "description": "Trouvez rapidement les informations sur vos produits grâce à notre moteur de recherche intelligent."
+    },
+    "card3": {
+      "title": "Information claire",
+      "description": "Accédez à des informations détaillées sur la composition, les allergènes et le score nutritionnel."
+    }
+  },
+  "cta": {
+    "title": "Prêt à découvrir vos aliments ?",
+    "subtitle": "Commencez dès maintenant à scanner ou rechercher des produits pour faire des choix plus sains",
+    "button": "Commencer maintenant"
+  },
+  "footer": {
+    "poweredBy": "Powered by Open Food Facts"
+  }
+}

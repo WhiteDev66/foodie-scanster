@@ -1,0 +1,37 @@
+
+{
+  "header": {
+    "search": "Suchen",
+    "scan": "Scannen"
+  },
+  "hero": {
+    "title": "Entdecke, was in deinen Lebensmitteln steckt",
+    "subtitle": "Scanne, suche und entdecke die Nährwertzusammensetzung deiner Lebensmittel in Sekunden.",
+    "scanButton": "Produkt scannen",
+    "searchButton": "Produkt suchen"
+  },
+  "howItWorks": {
+    "title": "So funktioniert's",
+    "subtitle": "Eine einfache und intuitive App, die dir hilft, informierte Entscheidungen bei Lebensmitteln zu treffen",
+    "card1": {
+      "title": "Einfaches Scannen",
+      "description": "Nutze deine Kamera, um den Barcode eines Produkts zu scannen und sofort Informationen zu erhalten."
+    },
+    "card2": {
+      "title": "Schnelle Suche",
+      "description": "Finde schnell Informationen zu deinen Produkten mit unserer intelligenten Suchmaschine."
+    },
+    "card3": {
+      "title": "Klare Informationen",
+      "description": "Greife auf detaillierte Informationen zu Zusammensetzung, Allergenen und Nährwertangaben zu."
+    }
+  },
+  "cta": {
+    "title": "Bereit, deine Lebensmittel zu entdecken?",
+    "subtitle": "Beginne jetzt mit dem Scannen oder Suchen von Produkten, um gesündere Entscheidungen zu treffen",
+    "button": "Jetzt starten"
+  },
+  "footer": {
+    "poweredBy": "Powered by Open Food Facts"
+  }
+}

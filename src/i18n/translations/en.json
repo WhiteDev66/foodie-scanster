@@ -1,0 +1,37 @@
+
+{
+  "header": {
+    "search": "Search",
+    "scan": "Scan"
+  },
+  "hero": {
+    "title": "Discover what's in your food",
+    "subtitle": "Scan, search and discover the nutritional composition of your food products in seconds.",
+    "scanButton": "Scan a product",
+    "searchButton": "Search a product"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "A simple and intuitive app to help you make informed food choices",
+    "card1": {
+      "title": "Easy scanning",
+      "description": "Use your camera to scan a product's barcode and instantly get its information."
+    },
+    "card2": {
+      "title": "Quick search",
+      "description": "Quickly find information about your products with our intelligent search engine."
+    },
+    "card3": {
+      "title": "Clear information",
+      "description": "Access detailed information on composition, allergens and nutritional score."
+    }
+  },
+  "cta": {
+    "title": "Ready to discover your food?",
+    "subtitle": "Start scanning or searching for products now to make healthier choices",
+    "button": "Start now"
+  },
+  "footer": {
+    "poweredBy": "Powered by Open Food Facts"
+  }
+}

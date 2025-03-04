@@ -2,8 +2,10 @@
 import { Search, Camera, ArrowRight, Apple, Leaf, AlertCircle, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -21,10 +23,10 @@ const Index = () => {
           </div>
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/search" className="text-brand-600 hover:text-brand-700">
-              Rechercher
+              {t('header.search')}
             </Link>
             <Link to="/scan" className="text-brand-600 hover:text-brand-700">
-              Scanner
+              {t('header.scan')}
             </Link>
           </nav>
         </div>
@@ -38,10 +40,10 @@ const Index = () => {
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className={`text-center space-y-8 transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
               <h1 className="text-4xl md:text-6xl font-bold text-brand-800">
-                Découvrez ce qu'il y a dans vos aliments
+                {t('hero.title')}
               </h1>
               <p className="text-xl text-brand-600 max-w-2xl mx-auto">
-                Scannez, recherchez et découvrez la composition nutritionnelle de vos produits alimentaires en quelques secondes.
+                {t('hero.subtitle')}
               </p>
               
               <div className="flex justify-center">
@@ -58,14 +60,14 @@ const Index = () => {
                   className="btn-primary w-full sm:w-auto flex items-center justify-center space-x-2 animate-pulse hover:animate-none"
                 >
                   <Camera className="h-5 w-5" />
-                  <span>Scanner un produit</span>
+                  <span>{t('hero.scanButton')}</span>
                 </Link>
                 <Link
                   to="/search"
                   className="btn-secondary w-full sm:w-auto flex items-center justify-center space-x-2 transition-all hover:bg-brand-100"
                 >
                   <Search className="h-5 w-5" />
-                  <span>Rechercher un produit</span>
+                  <span>{t('hero.searchButton')}</span>
                 </Link>
               </div>
             </div>
@@ -77,9 +79,9 @@ const Index = () => {
           
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-brand-800 mb-4">Comment ça fonctionne</h2>
+              <h2 className="text-3xl font-bold text-brand-800 mb-4">{t('howItWorks.title')}</h2>
               <p className="text-xl text-brand-600 max-w-2xl mx-auto">
-                Une application simple et intuitive pour vous aider à faire des choix alimentaires éclairés
+                {t('howItWorks.subtitle')}
               </p>
             </div>
             
@@ -89,10 +91,10 @@ const Index = () => {
                   <Camera className="h-6 w-6 text-brand-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-brand-800 mb-2">
-                  Scanner facile
+                  {t('howItWorks.card1.title')}
                 </h3>
                 <p className="text-brand-600">
-                  Utilisez votre caméra pour scanner le code-barres d'un produit et obtenir instantanément ses informations.
+                  {t('howItWorks.card1.description')}
                 </p>
                 <div className="mt-4 flex justify-center">
                   <img 
@@ -108,10 +110,10 @@ const Index = () => {
                   <Search className="h-6 w-6 text-brand-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-brand-800 mb-2">
-                  Recherche rapide
+                  {t('howItWorks.card2.title')}
                 </h3>
                 <p className="text-brand-600">
-                  Trouvez rapidement les informations sur vos produits grâce à notre moteur de recherche intelligent.
+                  {t('howItWorks.card2.description')}
                 </p>
                 <div className="mt-4 flex justify-center">
                   <img 
@@ -127,10 +129,10 @@ const Index = () => {
                   <Leaf className="h-6 w-6 text-brand-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-brand-800 mb-2">
-                  Information claire
+                  {t('howItWorks.card3.title')}
                 </h3>
                 <p className="text-brand-600">
-                  Accédez à des informations détaillées sur la composition, les allergènes et le score nutritionnel.
+                  {t('howItWorks.card3.description')}
                 </p>
                 <div className="mt-4 flex justify-center">
                   <img 
@@ -147,9 +149,9 @@ const Index = () => {
         <section className="py-16 px-4 bg-gradient-to-r from-brand-700 to-brand-800 text-white">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center space-y-6">
-              <h2 className="text-3xl font-bold">Prêt à découvrir vos aliments ?</h2>
+              <h2 className="text-3xl font-bold">{t('cta.title')}</h2>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Commencez dès maintenant à scanner ou rechercher des produits pour faire des choix plus sains
+                {t('cta.subtitle')}
               </p>
               <div className="pt-4">
                 <Link
@@ -157,7 +159,7 @@ const Index = () => {
                   className="btn-primary bg-white text-brand-800 hover:bg-brand-100 inline-flex items-center space-x-2"
                 >
                   <ShoppingCart className="h-5 w-5" />
-                  <span>Commencer maintenant</span>
+                  <span>{t('cta.button')}</span>
                   <ArrowRight className="h-5 w-5 ml-2 animate-bounce" />
                 </Link>
               </div>
@@ -169,7 +171,7 @@ const Index = () => {
       <footer className="bg-white border-t">
         <div className="container mx-auto px-4 py-8">
           <p className="text-center text-brand-600">
-            Powered by Open Food Facts
+            {t('footer.poweredBy')}
           </p>
         </div>
       </footer>
