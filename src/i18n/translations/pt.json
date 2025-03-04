@@ -1,0 +1,37 @@
+
+{
+  "header": {
+    "search": "Pesquisar",
+    "scan": "Escanear"
+  },
+  "hero": {
+    "title": "Descubra o que há em sua comida",
+    "subtitle": "Escaneie, pesquise e descubra a composição nutricional dos seus produtos alimentares em segundos.",
+    "scanButton": "Escanear um produto",
+    "searchButton": "Pesquisar um produto"
+  },
+  "howItWorks": {
+    "title": "Como funciona",
+    "subtitle": "Um aplicativo simples e intuitivo para ajudá-lo a fazer escolhas alimentares informadas",
+    "card1": {
+      "title": "Escaneamento fácil",
+      "description": "Use sua câmera para escanear o código de barras de um produto e obter instantaneamente suas informações."
+    },
+    "card2": {
+      "title": "Pesquisa rápida",
+      "description": "Encontre rapidamente informações sobre seus produtos com nosso mecanismo de busca inteligente."
+    },
+    "card3": {
+      "title": "Informações claras",
+      "description": "Acesse informações detalhadas sobre composição, alérgenos e pontuação nutricional."
+    }
+  },
+  "cta": {
+    "title": "Pronto para descobrir sua comida?",
+    "subtitle": "Comece a escanear ou pesquisar produtos agora para fazer escolhas mais saudáveis",
+    "button": "Começar agora"
+  },
+  "footer": {
+    "poweredBy": "Desenvolvido por Open Food Facts"
+  }
+}

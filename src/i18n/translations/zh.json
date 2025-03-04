@@ -1,0 +1,37 @@
+
+{
+  "header": {
+    "search": "搜索",
+    "scan": "扫描"
+  },
+  "hero": {
+    "title": "发现你的食物中有什么",
+    "subtitle": "扫描、搜索并在几秒钟内发现你的食品的营养成分。",
+    "scanButton": "扫描产品",
+    "searchButton": "搜索产品"
+  },
+  "howItWorks": {
+    "title": "工作原理",
+    "subtitle": "一个简单直观的应用程序，帮助你做出明智的食物选择",
+    "card1": {
+      "title": "轻松扫描",
+      "description": "使用相机扫描产品的条形码，立即获取其信息。"
+    },
+    "card2": {
+      "title": "快速搜索",
+      "description": "使用我们的智能搜索引擎快速找到有关产品的信息。"
+    },
+    "card3": {
+      "title": "清晰信息",
+      "description": "获取有关成分、过敏原和营养评分的详细信息。"
+    }
+  },
+  "cta": {
+    "title": "准备好发现你的食物了吗？",
+    "subtitle": "立即开始扫描或搜索产品，做出更健康的选择",
+    "button": "立即开始"
+  },
+  "footer": {
+    "poweredBy": "由 Open Food Facts 提供支持"
+  }
+}

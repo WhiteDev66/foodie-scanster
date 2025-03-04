@@ -1,0 +1,37 @@
+
+{
+  "header": {
+    "search": "Cerca",
+    "scan": "Scansiona"
+  },
+  "hero": {
+    "title": "Scopri cosa c'è nel tuo cibo",
+    "subtitle": "Scansiona, cerca e scopri la composizione nutrizionale dei tuoi prodotti alimentari in pochi secondi.",
+    "scanButton": "Scansiona un prodotto",
+    "searchButton": "Cerca un prodotto"
+  },
+  "howItWorks": {
+    "title": "Come funziona",
+    "subtitle": "Un'app semplice e intuitiva per aiutarti a fare scelte alimentari informate",
+    "card1": {
+      "title": "Scansione facile",
+      "description": "Usa la tua fotocamera per scansionare il codice a barre di un prodotto e ottenere istantaneamente le sue informazioni."
+    },
+    "card2": {
+      "title": "Ricerca rapida",
+      "description": "Trova rapidamente informazioni sui tuoi prodotti con il nostro motore di ricerca intelligente."
+    },
+    "card3": {
+      "title": "Informazioni chiare",
+      "description": "Accedi a informazioni dettagliate sulla composizione, gli allergeni e il punteggio nutrizionale."
+    }
+  },
+  "cta": {
+    "title": "Pronto a scoprire il tuo cibo?",
+    "subtitle": "Inizia a scansionare o cercare prodotti ora per fare scelte più sane",
+    "button": "Inizia ora"
+  },
+  "footer": {
+    "poweredBy": "Powered by Open Food Facts"
+  }
+}

@@ -16,7 +16,13 @@ const LanguageSelector = () => {
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' },
     { code: 'es', name: 'Español' },
-    { code: 'de', name: 'Deutsch' }
+    { code: 'de', name: 'Deutsch' },
+    { code: 'ar', name: 'العربية' },
+    { code: 'it', name: 'Italiano' },
+    { code: 'pt', name: 'Português' },
+    { code: 'ru', name: 'Русский' },
+    { code: 'zh', name: '中文' },
+    { code: 'ja', name: '日本語' }
   ];
 
   const changeLanguage = (lng: string) => {
@@ -31,7 +37,7 @@ const LanguageSelector = () => {
         <Globe className="h-4 w-4 text-brand-600" />
         <span className="text-sm font-medium text-brand-600">{currentLanguage.name}</span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-white shadow-md border border-brand-100">
+      <DropdownMenuContent className="bg-white shadow-md border border-brand-100 max-h-60 overflow-y-auto">
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
