@@ -9,6 +9,7 @@ import Search from "./pages/Search";
 import Scan from "./pages/Scan";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/search" element={<Search />} />
           <Route path="/scan" element={<Scan />} />
           <Route path="/product/:barcode" element={<Product />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

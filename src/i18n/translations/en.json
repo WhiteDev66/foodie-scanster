@@ -2,7 +2,8 @@
 {
   "header": {
     "search": "Search",
-    "scan": "Scan"
+    "scan": "Scan",
+    "privacy": "Privacy Policy"
   },
   "hero": {
     "title": "Discover what's in your food",
@@ -95,5 +96,47 @@
     "allergens": {
       "title": "Allergens"
     }
+  },
+  "common": {
+    "back": "Back"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "introduction": {
+      "title": "Introduction",
+      "content": "Welcome to Foodie Scan. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you."
+    },
+    "dataCollection": {
+      "title": "Information We Collect",
+      "content": "We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:",
+      "item1": "Technical Data includes internet protocol (IP) address, browser type and version, time zone setting and location, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.",
+      "item2": "Usage Data includes information about how you use our website and services.",
+      "item3": "Marketing and Communications Data includes your preferences in receiving marketing from us and our third parties and your communication preferences."
+    },
+    "dataUsage": {
+      "title": "How We Use Your Data",
+      "content": "We will only use your personal data when the law allows us to. Most commonly, we will use your personal data to provide you with the food product information, improve our services, and send you communications that may be of interest to you."
+    },
+    "cookies": {
+      "title": "Cookies and Similar Technologies",
+      "content": "We use cookies and similar tracking technologies to track the activity on our Service and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier."
+    },
+    "thirdParty": {
+      "title": "Third-Party Disclosure",
+      "content": "We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential."
+    },
+    "rights": {
+      "title": "Your Rights",
+      "content": "Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to access, correct, erase, restrict, transfer, or object to the processing of your personal data."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "content": "If you have any questions about this privacy policy or our privacy practices, please contact us through the contact information provided on our website."
+    },
+    "updates": {
+      "title": "Changes to This Privacy Policy",
+      "content": "We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page and updating the 'last updated' date."
+    },
+    "lastUpdated": "Last Updated"
   }
 }

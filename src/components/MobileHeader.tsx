@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Menu, X, Apple, Search, Camera } from 'lucide-react';
+import { Menu, X, Apple, Search, Camera, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
@@ -77,6 +77,15 @@ const MobileHeader = () => {
               >
                 <Camera className="h-5 w-5 text-brand-600" />
                 <span className="text-brand-600">{t('header.scan')}</span>
+              </Link>
+              
+              <Link 
+                to="/privacy" 
+                className="flex items-center space-x-2 p-2 rounded-md hover:bg-brand-50"
+                onClick={toggleMenu}
+              >
+                <Shield className="h-5 w-5 text-brand-600" />
+                <span className="text-brand-600">{t('header.privacy')}</span>
               </Link>
               
               <div className="pt-4 border-t">

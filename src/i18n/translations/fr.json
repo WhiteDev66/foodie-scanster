@@ -2,7 +2,8 @@
 {
   "header": {
     "search": "Rechercher",
-    "scan": "Scanner"
+    "scan": "Scanner",
+    "privacy": "Politique de confidentialité"
   },
   "hero": {
     "title": "Découvrez ce qu'il y a dans vos aliments",
@@ -97,5 +98,47 @@
     "allergens": {
       "title": "Allergènes"
     }
+  },
+  "common": {
+    "back": "Retour"
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "introduction": {
+      "title": "Introduction",
+      "content": "Bienvenue sur Foodie Scan. Nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles. Cette politique de confidentialité vous informera de la manière dont nous prenons soin de vos données personnelles lorsque vous visitez notre site web et vous informera de vos droits en matière de confidentialité et de la manière dont la loi vous protège."
+    },
+    "dataCollection": {
+      "title": "Informations que nous collectons",
+      "content": "Nous pouvons collecter, utiliser, stocker et transférer différents types de données personnelles vous concernant, que nous avons regroupées comme suit :",
+      "item1": "Les données techniques comprennent l'adresse du protocole Internet (IP), le type et la version du navigateur, le fuseau horaire et l'emplacement, les types et versions des plug-ins du navigateur, le système d'exploitation et la plate-forme, ainsi que d'autres technologies sur les appareils que vous utilisez pour accéder à ce site web.",
+      "item2": "Les données d'utilisation comprennent des informations sur la façon dont vous utilisez notre site web et nos services.",
+      "item3": "Les données de marketing et de communication comprennent vos préférences en matière de réception de marketing de notre part et de nos tiers, ainsi que vos préférences en matière de communication."
+    },
+    "dataUsage": {
+      "title": "Comment nous utilisons vos données",
+      "content": "Nous n'utiliserons vos données personnelles que lorsque la loi nous y autorise. Le plus souvent, nous utiliserons vos données personnelles pour vous fournir des informations sur les produits alimentaires, améliorer nos services et vous envoyer des communications susceptibles de vous intéresser."
+    },
+    "cookies": {
+      "title": "Cookies et technologies similaires",
+      "content": "Nous utilisons des cookies et des technologies de suivi similaires pour suivre l'activité sur notre service et conserver certaines informations. Les cookies sont des fichiers contenant une petite quantité de données qui peuvent inclure un identifiant unique anonyme."
+    },
+    "thirdParty": {
+      "title": "Divulgation à des tiers",
+      "content": "Nous ne vendons, n'échangeons ou ne transférons pas vos informations personnelles identifiables à des tiers. Cela n'inclut pas les tiers de confiance qui nous aident à exploiter notre site web, à mener nos activités ou à vous servir, à condition que ces parties acceptent de garder ces informations confidentielles."
+    },
+    "rights": {
+      "title": "Vos droits",
+      "content": "Dans certaines circonstances, vous disposez de droits en vertu des lois sur la protection des données concernant vos données personnelles, notamment le droit d'accéder, de corriger, d'effacer, de restreindre, de transférer ou de vous opposer au traitement de vos données personnelles."
+    },
+    "contact": {
+      "title": "Contactez-nous",
+      "content": "Si vous avez des questions concernant cette politique de confidentialité ou nos pratiques en matière de confidentialité, veuillez nous contacter par le biais des informations de contact fournies sur notre site web."
+    },
+    "updates": {
+      "title": "Modifications de cette politique de confidentialité",
+      "content": "Nous pouvons mettre à jour notre politique de confidentialité de temps à autre. Nous vous informerons de tout changement en publiant la nouvelle politique de confidentialité sur cette page et en mettant à jour la date de 'dernière mise à jour'."
+    },
+    "lastUpdated": "Dernière mise à jour"
   }
 }
