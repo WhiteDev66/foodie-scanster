@@ -8,12 +8,15 @@ import { Product } from "../types/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
+import MobileHeader from "@/components/MobileHeader";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const { toast } = useToast();
   const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile();
 
   // Force refetch when language changes
   useEffect(() => {
@@ -59,12 +62,15 @@ const Search = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {isMobile ? <MobileHeader /> : null}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto space-y-8">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-brand-800">{t("search.title", "Recherche")}</h1>
-            <LanguageSelector />
-          </div>
+          {!isMobile && (
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-bold text-brand-800">{t("search.title", "Recherche")}</h1>
+              <LanguageSelector />
+            </div>
+          )}
           
           <div className="flex items-center space-x-4 bg-white rounded-lg shadow-sm p-4">
             <SearchIcon className="h-5 w-5 text-gray-400" />

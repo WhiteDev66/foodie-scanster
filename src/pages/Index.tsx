@@ -1,13 +1,16 @@
 
-import { Search, Camera, ArrowRight, Apple, Leaf, AlertCircle, ShoppingCart } from "lucide-react";
+import { Search, Camera, ArrowRight, Apple, Leaf, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "../components/LanguageSelector";
+import MobileHeader from "../components/MobileHeader";
+import { useIsMobile } from "../hooks/use-mobile";
 
 const Index = () => {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Déclencher l'animation après le chargement de la page
@@ -16,22 +19,26 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <header className="relative bg-white/80 backdrop-blur-sm border-b">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Apple className="h-8 w-8 text-brand-600" />
-            <span className="text-xl font-semibold text-brand-600">Foodie Scan</span>
+      {isMobile ? (
+        <MobileHeader />
+      ) : (
+        <header className="relative bg-white/80 backdrop-blur-sm border-b">
+          <div className="container mx-auto px-4 py-6 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Apple className="h-8 w-8 text-brand-600" />
+              <span className="text-xl font-semibold text-brand-600">Foodie Scan</span>
+            </div>
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link to="/search" className="text-brand-600 hover:text-brand-700">
+                {t('header.search')}
+              </Link>
+              <Link to="/scan" className="text-brand-600 hover:text-brand-700">
+                {t('header.scan')}
+              </Link>
+            </nav>
           </div>
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/search" className="text-brand-600 hover:text-brand-700">
-              {t('header.search')}
-            </Link>
-            <Link to="/scan" className="text-brand-600 hover:text-brand-700">
-              {t('header.scan')}
-            </Link>
-          </nav>
-        </div>
-      </header>
+        </header>
+      )}
 
       <main>
         <section className="py-20 px-4 relative overflow-hidden">
