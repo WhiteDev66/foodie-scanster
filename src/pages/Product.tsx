@@ -1,13 +1,13 @@
-
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CircleAlert, Heart, AlertTriangle, ThumbsUp, AlertCircle } from "lucide-react";
+import { ArrowLeft, CircleAlert, Heart, AlertTriangle, ThumbsUp, AlertCircle, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { addToHistory, isFavorite, toggleFavorite, shareProduct } from "@/services/storage";
 
-// Composant pour afficher une valeur nutritionnelle formatée
 const NutritionValue = ({ label, value, unit = "g" }: { 
   label: string; 
   value: string | number | undefined | null; 
@@ -26,7 +26,6 @@ const NutritionValue = ({ label, value, unit = "g" }: {
   );
 };
 
-// Composant pour afficher le Nutriscore avec les couleurs appropriées
 const Nutriscore = ({ grade }: { grade: string | undefined | null }) => {
   const { t } = useTranslation();
   
@@ -53,7 +52,6 @@ const Nutriscore = ({ grade }: { grade: string | undefined | null }) => {
   );
 };
 
-// Composant pour afficher le groupe NOVA
 const NovaGroup = ({ group }: { group: string | number | undefined | null }) => {
   const { t } = useTranslation();
   
@@ -94,7 +92,6 @@ const NovaGroup = ({ group }: { group: string | number | undefined | null }) => 
   );
 };
 
-// Nouveau composant pour évaluer la santé du produit
 const HealthAssessment = ({ product }: { product: any }) => {
   const { t } = useTranslation();
   
@@ -107,7 +104,6 @@ const HealthAssessment = ({ product }: { product: any }) => {
   const fatContent = product.nutriments?.fat;
   const saturatedFatContent = product.nutriments?.["saturated-fat"];
   
-  // Déterminer si le produit est sain ou non
   const isHealthy = (
     (nutriscoreGrade === 'A' || nutriscoreGrade === 'B') && 
     (novaGroup === 1 || novaGroup === 2)
@@ -118,7 +114,6 @@ const HealthAssessment = ({ product }: { product: any }) => {
     novaGroup === 4
   );
   
-  // Déterminer les risques potentiels pour la santé
   const healthRisks = [];
   
   if (sugarContent && sugarContent > 10) {
@@ -181,6 +176,7 @@ const Product = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t, i18n } = useTranslation();
+  const [isFavorited, setIsFavorited] = useState(false);
   
   const { data: product, isLoading, error } = useQuery({
     queryKey: ["product", barcode, i18n.language],
@@ -193,6 +189,42 @@ const Product = () => {
       return data.product;
     },
   });
+  
+  useEffect(() => {
+    if (product && barcode) {
+      addToHistory(product);
+      setIsFavorited(isFavorite(barcode));
+    }
+  }, [product, barcode]);
+  
+  const handleToggleFavorite = () => {
+    if (product) {
+      const newState = toggleFavorite(product);
+      setIsFavorited(newState);
+      
+      toast({
+        title: newState 
+          ? t("product.addedToFavorites", "Added to favorites") 
+          : t("product.removedFromFavorites", "Removed from favorites"),
+        description: product.product_name,
+        duration: 2000
+      });
+    }
+  };
+  
+  const handleShare = async () => {
+    if (product) {
+      const success = await shareProduct(product);
+      if (!success) {
+        toast({
+          title: t("product.shareNotSupported", "Sharing not supported"),
+          description: t("product.copyLinkInstead", "Please copy the link manually"),
+          variant: "destructive",
+          duration: 3000
+        });
+      }
+    }
+  };
   
   if (isLoading) {
     return (
@@ -221,14 +253,35 @@ const Product = () => {
   
   return (
     <div className="p-4 max-w-lg mx-auto">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="mb-4"
-        onClick={() => navigate(-1)}
-      >
-        <ArrowLeft className="h-5 w-5" />
-      </Button>
+      <div className="flex justify-between items-center mb-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+        
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleToggleFavorite}
+            aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+          >
+            <Heart className={`h-5 w-5 ${isFavorited ? "fill-red-500 text-red-500" : ""}`} />
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleShare}
+            aria-label="Share product"
+          >
+            <Share2 className="h-5 w-5" />
+          </Button>
+        </div>
+      </div>
       
       {product?.image_url && (
         <div className="mb-4 flex justify-center">
@@ -246,15 +299,12 @@ const Product = () => {
         <p className="text-gray-600 mb-4">{product.brands}</p>
       )}
       
-      {/* Nouvel emplacement pour l'évaluation de la santé */}
       <HealthAssessment product={product} />
       
-      {/* Affichage du Nutriscore */}
       {product?.nutriscore_grade && (
         <Nutriscore grade={product.nutriscore_grade} />
       )}
       
-      {/* Affichage du groupe NOVA */}
       {product?.nova_group && (
         <NovaGroup group={product.nova_group} />
       )}

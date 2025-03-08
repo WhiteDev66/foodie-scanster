@@ -49,7 +49,9 @@
     "nutriscore": {
       "label": "营养评分",
       "notAvailable": "不可用"
-    }
+    },
+    "recentSearches": "最近的搜索",
+    "seeAll": "查看全部"
   },
   "product": {
     "loading": "正在加载产品...",
@@ -97,10 +99,29 @@
     },
     "allergens": {
       "title": "过敏原"
-    }
+    },
+    "addedToFavorites": "已添加到收藏夹",
+    "removedFromFavorites": "已从收藏夹中移除",
+    "shareNotSupported": "不支持分享",
+    "copyLinkInstead": "请手动复制链接"
   },
   "common": {
     "back": "返回"
+  },
+  "history": {
+    "title": "历史记录与收藏",
+    "historyTab": "历史记录",
+    "favoritesTab": "收藏夹",
+    "clearHistory": "清除历史记录",
+    "noHistory": "历史记录中没有产品",
+    "startScanningOrSearching": "您扫描或搜索的产品将显示在这里",
+    "noFavorites": "没有收藏的产品",
+    "addFavoritesHint": "点击产品上的心形图标将其添加到收藏夹",
+    "addedToFavorites": "已添加到收藏夹",
+    "removedFromFavorites": "已从收藏夹中移除",
+    "historyCleared": "历史记录已清除",
+    "shareNotSupported": "不支持分享",
+    "copyLinkInstead": "请手动复制链接"
   },
   "privacy": {
     "title": "隐私政策",

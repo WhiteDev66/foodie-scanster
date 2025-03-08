@@ -16,6 +16,11 @@ export interface Product {
   status_verbose?: string;
 }
 
+export interface SavedProduct extends Product {
+  savedAt: number; // timestamp when the product was saved
+  isFavorite?: boolean; // whether the product is a favorite
+}
+
 export interface SearchResponse {
   count: number;
   page: number;

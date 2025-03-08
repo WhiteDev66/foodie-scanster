@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Search from "./pages/Search";
 import Scan from "./pages/Scan";
 import Product from "./pages/Product";
+import History from "./pages/History";
 import NotFound from "./pages/NotFound";
 import Privacy from "./pages/Privacy";
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/search" element={<Search />} />
           <Route path="/scan" element={<Scan />} />
           <Route path="/product/:barcode" element={<Product />} />
+          <Route path="/history" element={<History />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

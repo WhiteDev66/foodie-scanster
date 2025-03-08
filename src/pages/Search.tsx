@@ -1,5 +1,5 @@
 
-import { Search as SearchIcon } from "lucide-react";
+import { Search as SearchIcon, Clock, History as HistoryIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -10,13 +10,24 @@ import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
 import MobileHeader from "@/components/MobileHeader";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { getHistory, addToHistory } from "@/services/storage";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [recentSearches, setRecentSearches] = useState<Product[]>([]);
   const { toast } = useToast();
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+
+  // Charger l'historique récent
+  useEffect(() => {
+    const history = getHistory().slice(0, 5);
+    setRecentSearches(history);
+  }, []);
 
   // Force refetch when language changes
   useEffect(() => {
@@ -53,6 +64,11 @@ const Search = () => {
     return () => clearTimeout(timeoutId);
   };
 
+  const handleProductClick = (product: Product) => {
+    // Ajouter le produit à l'historique quand on clique dessus
+    addToHistory(product);
+  };
+
   const getNutriscore = (product: Product) => {
     if (!product.nutriscore_grade) {
       return t("search.nutriscore.notAvailable", "Non disponible");
@@ -68,7 +84,18 @@ const Search = () => {
           {!isMobile && (
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-bold text-brand-800">{t("search.title", "Recherche")}</h1>
-              <LanguageSelector />
+              <div className="flex items-center gap-4">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => navigate("/history")}
+                  className="flex items-center gap-2"
+                >
+                  <HistoryIcon className="h-4 w-4" />
+                  {t("history.title", "History & Favorites")}
+                </Button>
+                <LanguageSelector />
+              </div>
             </div>
           )}
           
@@ -95,12 +122,62 @@ const Search = () => {
             </div>
           )}
 
+          {!debouncedQuery && recentSearches.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-md font-medium text-gray-700 flex items-center">
+                  <Clock className="h-4 w-4 mr-2 text-gray-400" />
+                  {t("search.recentSearches", "Recent searches")}
+                </h2>
+                <Button 
+                  variant="link" 
+                  size="sm" 
+                  onClick={() => navigate("/history")}
+                  className="text-sm"
+                >
+                  {t("search.seeAll", "See all")}
+                </Button>
+              </div>
+              <div className="space-y-3">
+                {recentSearches.map((product) => (
+                  <Link
+                    key={`${product.code}`}
+                    to={`/product/${product.code}`}
+                    className="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-4 card-hover"
+                    onClick={() => handleProductClick(product)}
+                  >
+                    {product.image_url ? (
+                      <img
+                        src={product.image_url}
+                        alt={product.product_name}
+                        className="h-12 w-12 object-contain rounded"
+                      />
+                    ) : (
+                      <div className="h-12 w-12 bg-gray-100 rounded flex items-center justify-center">
+                        <SearchIcon className="h-5 w-5 text-gray-400" />
+                      </div>
+                    )}
+                    <div className="flex-1">
+                      <h2 className="font-medium text-brand-800">
+                        {product.product_name || t("search.unknownName", "Nom inconnu")}
+                      </h2>
+                      <span className="text-sm text-brand-600">
+                        {getNutriscore(product)}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid gap-4">
             {data?.products?.map((product: Product) => (
               <Link
                 key={product.code}
                 to={`/product/${product.code}`}
                 className="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-4 card-hover"
+                onClick={() => handleProductClick(product)}
               >
                 {product.image_url ? (
                   <img
