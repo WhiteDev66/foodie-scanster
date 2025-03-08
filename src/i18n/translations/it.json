@@ -1,8 +1,8 @@
-
 {
   "header": {
     "search": "Cerca",
-    "scan": "Scansiona"
+    "scan": "Scansiona",
+    "privacy": "Informativa sulla Privacy"
   },
   "hero": {
     "title": "Scopri cosa c'è nel tuo cibo",
@@ -95,5 +95,47 @@
     "allergens": {
       "title": "Allergeni"
     }
+  },
+  "common": {
+    "back": "Indietro"
+  },
+  "privacy": {
+    "title": "Informativa sulla Privacy",
+    "introduction": {
+      "title": "Introduzione",
+      "content": "Benvenuto in Foodie Scan. Rispettiamo la tua privacy e ci impegniamo a proteggere i tuoi dati personali. Questa informativa sulla privacy ti informerà su come ci prendiamo cura dei tuoi dati personali quando visiti il nostro sito web e ti informerà sui tuoi diritti alla privacy e su come la legge ti protegge."
+    },
+    "dataCollection": {
+      "title": "Informazioni che raccogliamo",
+      "content": "Possiamo raccogliere, utilizzare, memorizzare e trasferire diversi tipi di dati personali che ti riguardano, che abbiamo raggruppato come segue:",
+      "item1": "I Dati Tecnici includono indirizzo di protocollo Internet (IP), tipo e versione del browser, impostazione e posizione del fuso orario, tipi e versioni di plug-in del browser, sistema operativo e piattaforma, e altre tecnologie sui dispositivi che utilizzi per accedere a questo sito web.",
+      "item2": "I Dati di Utilizzo includono informazioni su come utilizzi il nostro sito web e i nostri servizi.",
+      "item3": "I Dati di Marketing e Comunicazione includono le tue preferenze nel ricevere marketing da noi e dai nostri terzi e le tue preferenze di comunicazione."
+    },
+    "dataUsage": {
+      "title": "Come utilizziamo i tuoi dati",
+      "content": "Utilizzeremo i tuoi dati personali solo quando la legge ce lo permette. Più comunemente, utilizzeremo i tuoi dati personali per fornirti informazioni sui prodotti alimentari, migliorare i nostri servizi e inviarti comunicazioni che potrebbero interessarti."
+    },
+    "cookies": {
+      "title": "Cookie e tecnologie simili",
+      "content": "Utilizziamo cookie e tecnologie di tracciamento simili per monitorare l'attività sul nostro Servizio e conservare determinate informazioni. I cookie sono file con una piccola quantità di dati che possono includere un identificatore unico anonimo."
+    },
+    "thirdParty": {
+      "title": "Divulgazione a terzi",
+      "content": "Non vendiamo, scambiamo o trasferiamo in altro modo le tue informazioni personali identificabili a terze parti. Ciò non include terze parti fidate che ci aiutano a gestire il nostro sito web, condurre la nostra attività o servirti, purché tali parti accettino di mantenere queste informazioni riservate."
+    },
+    "rights": {
+      "title": "I tuoi diritti",
+      "content": "In determinate circostanze, hai diritti ai sensi delle leggi sulla protezione dei dati in relazione ai tuoi dati personali, incluso il diritto di accedere, correggere, cancellare, limitare, trasferire o opporti al trattamento dei tuoi dati personali."
+    },
+    "contact": {
+      "title": "Contattaci",
+      "content": "Se hai domande su questa informativa sulla privacy o sulle nostre pratiche sulla privacy, contattaci attraverso le informazioni di contatto fornite sul nostro sito web."
+    },
+    "updates": {
+      "title": "Modifiche a questa Informativa sulla Privacy",
+      "content": "Potremmo aggiornare la nostra informativa sulla privacy di tanto in tanto. Ti informeremo di eventuali modifiche pubblicando la nuova informativa sulla privacy su questa pagina e aggiornando la data 'ultimo aggiornamento'."
+    },
+    "lastUpdated": "Ultimo aggiornamento: 2023-10-01"
   }
 }

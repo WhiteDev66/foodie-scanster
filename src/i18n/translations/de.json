@@ -1,8 +1,8 @@
-
 {
   "header": {
     "search": "Suchen",
-    "scan": "Scannen"
+    "scan": "Scannen",
+    "privacy": "Datenschutzerklärung"
   },
   "hero": {
     "title": "Entdecke, was in deinen Lebensmitteln steckt",
@@ -95,5 +95,47 @@
     "allergens": {
       "title": "Allergene"
     }
+  },
+  "common": {
+    "back": "Zurück"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "introduction": {
+      "title": "Einführung",
+      "content": "Willkommen bei Foodie Scan. Wir respektieren Ihre Privatsphäre und sind bestrebt, Ihre persönlichen Daten zu schützen. Diese Datenschutzerklärung informiert Sie darüber, wie wir Ihre persönlichen Daten behandeln, wenn Sie unsere Website besuchen, und informiert Sie über Ihre Datenschutzrechte und wie das Gesetz Sie schützt."
+    },
+    "dataCollection": {
+      "title": "Informationen, die wir sammeln",
+      "content": "Wir können verschiedene Arten von personenbezogenen Daten über Sie sammeln, verwenden, speichern und übertragen, die wir wie folgt gruppiert haben:",
+      "item1": "Technische Daten umfassen Internetprotokolladresse (IP), Browsertyp und -version, Zeitzoneneinstellung und Standort, Browserplug-in-Typen und -Versionen, Betriebssystem und Plattform sowie andere Technologien auf den Geräten, die Sie zum Zugriff auf diese Website verwenden.",
+      "item2": "Nutzungsdaten umfassen Informationen darüber, wie Sie unsere Website und Dienste nutzen.",
+      "item3": "Marketing- und Kommunikationsdaten umfassen Ihre Präferenzen beim Erhalt von Marketing von uns und unseren Dritten sowie Ihre Kommunikationspräferenzen."
+    },
+    "dataUsage": {
+      "title": "Wie wir Ihre Daten verwenden",
+      "content": "Wir werden Ihre personenbezogenen Daten nur verwenden, wenn das Gesetz uns dies erlaubt. Am häufigsten werden wir Ihre personenbezogenen Daten verwenden, um Ihnen Informationen zu Lebensmittelprodukten zu liefern, unsere Dienste zu verbessern und Ihnen Mitteilungen zu senden, die für Sie von Interesse sein könnten."
+    },
+    "cookies": {
+      "title": "Cookies und ähnliche Technologien",
+      "content": "Wir verwenden Cookies und ähnliche Tracking-Technologien, um die Aktivität auf unserem Service zu verfolgen und bestimmte Informationen zu speichern. Cookies sind Dateien mit einer kleinen Datenmenge, die möglicherweise eine anonyme eindeutige Kennung enthalten."
+    },
+    "thirdParty": {
+      "title": "Offenlegung gegenüber Dritten",
+      "content": "Wir verkaufen, tauschen oder übertragen anderweitig Ihre persönlich identifizierbaren Informationen nicht an externe Parteien. Dies schließt nicht vertrauenswürdige Dritte ein, die uns beim Betrieb unserer Website, bei der Durchführung unseres Geschäfts oder bei der Bedienung Ihrer Person helfen, solange diese Parteien zustimmen, diese Informationen vertraulich zu behandeln."
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "content": "Unter bestimmten Umständen haben Sie gemäß den Datenschutzgesetzen Rechte in Bezug auf Ihre personenbezogenen Daten, einschließlich des Rechts auf Zugang, Korrektur, Löschung, Einschränkung, Übertragung oder Widerspruch gegen die Verarbeitung Ihrer personenbezogenen Daten."
+    },
+    "contact": {
+      "title": "Kontaktieren Sie uns",
+      "content": "Wenn Sie Fragen zu dieser Datenschutzerklärung oder unseren Datenschutzpraktiken haben, kontaktieren Sie uns bitte über die auf unserer Website angegebenen Kontaktinformationen."
+    },
+    "updates": {
+      "title": "Änderungen dieser Datenschutzerklärung",
+      "content": "Wir können unsere Datenschutzerklärung von Zeit zu Zeit aktualisieren. Wir werden Sie über Änderungen informieren, indem wir die neue Datenschutzerklärung auf dieser Seite veröffentlichen und das Datum der 'letzten Aktualisierung' aktualisieren."
+    },
+    "lastUpdated": "Zuletzt aktualisiert: 2023-10-01"
   }
 }

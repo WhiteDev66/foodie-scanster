@@ -1,8 +1,8 @@
-
 {
   "header": {
     "search": "Buscar",
-    "scan": "Escanear"
+    "scan": "Escanear",
+    "privacy": "Política de Privacidad"
   },
   "hero": {
     "title": "Descubre qué hay en tus alimentos",
@@ -95,5 +95,47 @@
     "allergens": {
       "title": "Alérgenos"
     }
+  },
+  "common": {
+    "back": "Volver"
+  },
+  "privacy": {
+    "title": "Política de Privacidad",
+    "introduction": {
+      "title": "Introducción",
+      "content": "Bienvenido a Foodie Scan. Respetamos su privacidad y estamos comprometidos a proteger sus datos personales. Esta política de privacidad le informará sobre cómo cuidamos sus datos personales cuando visita nuestro sitio web y le informará sobre sus derechos de privacidad y cómo la ley lo protege."
+    },
+    "dataCollection": {
+      "title": "Información que recopilamos",
+      "content": "Podemos recopilar, utilizar, almacenar y transferir diferentes tipos de datos personales sobre usted, que hemos agrupado de la siguiente manera:",
+      "item1": "Los Datos Técnicos incluyen dirección de protocolo de Internet (IP), tipo y versión del navegador, configuración y ubicación de zona horaria, tipos y versiones de complementos del navegador, sistema operativo y plataforma, y otras tecnologías en los dispositivos que utiliza para acceder a este sitio web.",
+      "item2": "Los Datos de Uso incluyen información sobre cómo utiliza nuestro sitio web y servicios.",
+      "item3": "Los Datos de Marketing y Comunicaciones incluyen sus preferencias para recibir marketing de nosotros y de nuestros terceros y sus preferencias de comunicación."
+    },
+    "dataUsage": {
+      "title": "Cómo utilizamos sus datos",
+      "content": "Solo utilizaremos sus datos personales cuando la ley nos lo permita. Con mayor frecuencia, utilizaremos sus datos personales para proporcionarle información sobre productos alimenticios, mejorar nuestros servicios y enviarle comunicaciones que puedan ser de su interés."
+    },
+    "cookies": {
+      "title": "Cookies y tecnologías similares",
+      "content": "Utilizamos cookies y tecnologías de seguimiento similares para rastrear la actividad en nuestro Servicio y almacenar cierta información. Las cookies son archivos con una pequeña cantidad de datos que pueden incluir un identificador único anónimo."
+    },
+    "thirdParty": {
+      "title": "Divulgación a terceros",
+      "content": "No vendemos, intercambiamos ni transferimos de otro modo su información personalmente identificable a terceros. Esto no incluye a terceros de confianza que nos ayudan a operar nuestro sitio web, llevar a cabo nuestro negocio o servirle, siempre que esas partes acuerden mantener esta información confidencial."
+    },
+    "rights": {
+      "title": "Sus derechos",
+      "content": "En determinadas circunstancias, tiene derechos en virtud de las leyes de protección de datos en relación con sus datos personales, incluido el derecho a acceder, corregir, borrar, restringir, transferir u oponerse al procesamiento de sus datos personales."
+    },
+    "contact": {
+      "title": "Contáctenos",
+      "content": "Si tiene alguna pregunta sobre esta política de privacidad o nuestras prácticas de privacidad, comuníquese con nosotros a través de la información de contacto proporcionada en nuestro sitio web."
+    },
+    "updates": {
+      "title": "Cambios en esta política de privacidad",
+      "content": "Podemos actualizar nuestra política de privacidad de vez en cuando. Le notificaremos cualquier cambio publicando la nueva política de privacidad en esta página y actualizando la fecha de 'última actualización'."
+    },
+    "lastUpdated": "Última actualización: 2023-10-01"
   }
 }

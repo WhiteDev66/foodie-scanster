@@ -76,7 +76,7 @@ const Privacy = () => {
         </div>
 
         <div className="mt-8 text-center text-gray-500 text-sm">
-          <p>{t('privacy.lastUpdated')}: 2023-10-01</p>
+          <p>{t('privacy.lastUpdated')}</p>
         </div>
       </div>
     </div>
