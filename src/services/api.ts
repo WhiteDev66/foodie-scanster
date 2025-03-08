@@ -1,4 +1,4 @@
-import { Product, SearchResponse } from "../types/api";
+import { Product, SearchResponse, SearchParams } from "../types/api";
 
 const API_URL = "https://world.openfoodfacts.org/api/v2";
 
@@ -15,8 +15,10 @@ async function handleResponse(response: Response) {
   return response.json();
 }
 
-export async function searchProducts(query: string): Promise<SearchResponse> {
+export async function searchProducts(params: string | SearchParams): Promise<SearchResponse> {
+  let query = typeof params === 'string' ? params : params.query;
   console.log("Searching for:", query);
+  
   if (!query.trim()) {
     return { count: 0, page: 1, page_size: 0, products: [] };
   }
@@ -28,16 +30,30 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
   console.log("Current language code for API:", langCode);
   
   try {
-    // Using language code in API request
-    const response = await fetch(
-      `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=${langCode}&brands_tags=${encodeURIComponent(query.toLowerCase())}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
-    );
+    let apiUrl = `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=${langCode}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`;
+    
+    // Add filters if provided
+    if (typeof params !== 'string') {
+      if (params.nutriscoreGrade) {
+        apiUrl += `&nutrition_grades=${params.nutriscoreGrade.toLowerCase()}`;
+      }
+      
+      if (params.novaGroup) {
+        apiUrl += `&nova_groups=${params.novaGroup}`;
+      }
+      
+      if (params.category) {
+        apiUrl += `&categories_tags=${encodeURIComponent(params.category)}`;
+      }
+    }
+    
+    const response = await fetch(apiUrl);
     console.log("API Response status:", response.status);
     const data = await handleResponse(response);
     console.log("API Response data:", data);
     
-    // Si aucun résultat avec la marque, essayer une recherche plus large
-    if (!data.products?.length) {
+    // If no results with brand, try a broader search
+    if (!data.products?.length && typeof params === 'string') {
       const fallbackResponse = await fetch(
         `${API_URL}/search?search_terms=${encodeURIComponent(query)}&lc=${langCode}&fields=code,product_name,brands,brands_tags,image_url,nutriscore_grade,nova_group,ingredients_text,nutrition_grades_tags,labels_tags,categories_tags,nutriments&page_size=24`
       );
@@ -45,7 +61,7 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
       data.products = fallbackData.products;
     }
 
-    // Filtrer et trier les résultats
+    // Filter and sort results
     if (data.products) {
       const searchTerm = query.toLowerCase();
       data.products = data.products
@@ -58,7 +74,7 @@ export async function searchProducts(query: string): Promise<SearchResponse> {
         .sort((a, b) => {
           const aName = a.product_name?.toLowerCase() || "";
           const bName = b.product_name?.toLowerCase() || "";
-          // Mettre en premier les produits qui commencent par le terme recherché
+          // Prioritize products that start with the search term
           if (aName.startsWith(searchTerm) && !bName.startsWith(searchTerm)) return -1;
           if (!aName.startsWith(searchTerm) && bName.startsWith(searchTerm)) return 1;
           return 0;

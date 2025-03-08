@@ -49,6 +49,15 @@
     "nutriscore": {
       "label": "Nutriscore",
       "notAvailable": "Non disponible"
+    },
+    "recentSearches": "Recherches récentes",
+    "seeAll": "Voir tout",
+    "filters": {
+      "title": "Filtres",
+      "clear": "Effacer les filtres",
+      "nutriscore": "Nutriscore",
+      "novaGroup": "Groupe NOVA",
+      "any": "Tous"
     }
   },
   "product": {
@@ -97,10 +106,29 @@
     },
     "allergens": {
       "title": "Allergènes"
-    }
+    },
+    "addedToFavorites": "Ajouté aux favoris",
+    "removedFromFavorites": "Retiré des favoris",
+    "shareNotSupported": "Partage non supporté",
+    "copyLinkInstead": "Veuillez copier le lien manuellement"
   },
   "common": {
     "back": "Retour"
+  },
+  "history": {
+    "title": "Historique et Favoris",
+    "historyTab": "Historique",
+    "favoritesTab": "Favoris",
+    "clearHistory": "Effacer l'historique",
+    "noHistory": "Aucun produit dans l'historique",
+    "startScanningOrSearching": "Les produits que vous scannez ou recherchez apparaîtront ici",
+    "noFavorites": "Aucun produit favori",
+    "addFavoritesHint": "Appuyez sur l'icône en forme de cœur sur un produit pour l'ajouter aux favoris",
+    "addedToFavorites": "Ajouté aux favoris",
+    "removedFromFavorites": "Retiré des favoris",
+    "historyCleared": "Historique effacé",
+    "shareNotSupported": "Partage non supporté",
+    "copyLinkInstead": "Veuillez copier le lien manuellement"
   },
   "privacy": {
     "title": "Politique de confidentialité",
@@ -139,6 +167,6 @@
       "title": "Modifications de cette politique de confidentialité",
       "content": "Nous pouvons mettre à jour notre politique de confidentialité de temps à autre. Nous vous informerons de tout changement en publiant la nouvelle politique de confidentialité sur cette page et en mettant à jour la date de 'dernière mise à jour'."
     },
-    "lastUpdated": "Dernière mise à jour"
+    "lastUpdated": "Dernière mise à jour: 2023-10-01"
   }
 }

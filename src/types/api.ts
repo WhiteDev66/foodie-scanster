@@ -21,6 +21,13 @@ export interface SavedProduct extends Product {
   isFavorite?: boolean; // whether the product is a favorite
 }
 
+export interface SearchParams {
+  query: string;
+  nutriscoreGrade?: string;
+  novaGroup?: string;
+  category?: string;
+}
+
 export interface SearchResponse {
   count: number;
   page: number;

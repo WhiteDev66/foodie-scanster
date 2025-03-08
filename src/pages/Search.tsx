@@ -1,10 +1,10 @@
 
-import { Search as SearchIcon, Clock, History as HistoryIcon } from "lucide-react";
+import { Search as SearchIcon, Clock, History as HistoryIcon, Filter } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { searchProducts } from "../services/api";
-import { Product } from "../types/api";
+import { Product, SearchParams } from "../types/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "@/components/LanguageSelector";
@@ -13,17 +13,20 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { getHistory, addToHistory } from "@/services/storage";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import SearchFilters from "@/components/SearchFilters";
 
 const Search = () => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [recentSearches, setRecentSearches] = useState<Product[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<Partial<SearchParams>>({});
   const { toast } = useToast();
   const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  // Charger l'historique récent
+  // Load recent history
   useEffect(() => {
     const history = getHistory().slice(0, 5);
     setRecentSearches(history);
@@ -33,15 +36,20 @@ const Search = () => {
   useEffect(() => {
     if (debouncedQuery) {
       // Refetch search results when language changes
-      searchProducts(debouncedQuery).catch(error => {
+      refetch().catch(error => {
         console.error("Error refetching search results:", error);
       });
     }
   }, [i18n.language, debouncedQuery]);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["search", debouncedQuery, i18n.language],
-    queryFn: () => searchProducts(debouncedQuery),
+  const searchParams: SearchParams = {
+    query: debouncedQuery,
+    ...filters
+  };
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["search", debouncedQuery, filters, i18n.language],
+    queryFn: () => searchProducts(debouncedQuery ? searchParams : ""),
     enabled: debouncedQuery.length > 0,
     retry: false,
     meta: {
@@ -65,8 +73,20 @@ const Search = () => {
   };
 
   const handleProductClick = (product: Product) => {
-    // Ajouter le produit à l'historique quand on clique dessus
+    // Add product to history when clicked
     addToHistory(product);
+  };
+
+  const handleFilterChange = (newFilters: Partial<SearchParams>) => {
+    setFilters(newFilters);
+  };
+
+  const clearFilters = () => {
+    setFilters({});
+  };
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
   };
 
   const getNutriscore = (product: Product) => {
@@ -76,11 +96,13 @@ const Search = () => {
     return `${t("search.nutriscore.label", "Nutriscore")} : ${product.nutriscore_grade.toUpperCase()}`;
   };
 
+  const hasActiveFilters = Object.values(filters).some(value => !!value);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {isMobile ? <MobileHeader /> : null}
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto space-y-8">
+        <div className="max-w-2xl mx-auto space-y-4">
           {!isMobile && (
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-bold text-brand-800">{t("search.title", "Recherche")}</h1>
@@ -108,7 +130,23 @@ const Search = () => {
               placeholder={t("search.placeholder", "Rechercher un produit...")}
               className="flex-1 outline-none"
             />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleFilters} 
+              className={hasActiveFilters ? "text-brand-600" : "text-gray-400"}
+            >
+              <Filter className="h-5 w-5" />
+            </Button>
           </div>
+
+          {showFilters && (
+            <SearchFilters 
+              filters={filters} 
+              onFilterChange={handleFilterChange}
+              onClearFilters={clearFilters}
+            />
+          )}
 
           {isLoading && (
             <div className="text-center py-8">
